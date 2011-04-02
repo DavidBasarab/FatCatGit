@@ -59,7 +59,8 @@ namespace FatCatGit.CommandLineRunner
                                 WindowStyle = ProcessWindowStyle.Hidden,
                                 CreateNoWindow = true,
                                 UseShellExecute = false,
-                                Arguments = Command.Arguments
+                                Arguments = Command.Arguments,
+                                WorkingDirectory = Command.WorkingDirectory
                             };
         }
     }

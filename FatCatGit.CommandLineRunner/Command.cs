@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FatCatGit.CommandLineRunner
+﻿namespace FatCatGit.CommandLineRunner
 {
     public class Command
     {
-        public Command(string commandFullLocation)
-        {
-            CommandFullLocation = commandFullLocation;
-        }
-
-        public Command(string commandFullLocation, string arguments)
+        public Command(string commandFullLocation, string arguments = null, string workingDirectory = null)
         {
             CommandFullLocation = commandFullLocation;
             Arguments = arguments;
+            WorkingDirectory = workingDirectory;
         }
+
+        public string WorkingDirectory { get; set; }
 
         public string CommandFullLocation { get; set; }
 

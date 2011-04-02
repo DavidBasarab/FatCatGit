@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FatCatGit.UnitTests.CommandLineRunner</RootNamespace>
     <AssemblyName>FatCatGit.UnitTests.CommandLineRunner</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,15 +51,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommandLineUnitTester\CommandLineUnitTester.csproj">
+      <Project>{C38FAE73-DD7D-4CBC-AEDE-E598543E7E9A}</Project>
+      <Name>CommandLineUnitTester</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FatCatGit.CommandLineRunner\FatCatGit.CommandLineRunner.csproj">
       <Project>{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}</Project>
       <Name>FatCatGit.CommandLineRunner</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Test.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

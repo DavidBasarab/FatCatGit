@@ -9,27 +9,37 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandWillReturnOutputAsString()
         {
-            var command = new Command("ipconfig");
+            var command = new Command("CommandLineUnitTester");
 
             var runner = new Runner(command);
 
             runner.Execute();
 
-            Assert.That(runner.Output.Contains("Windows IP Configuration"), Is.True);
+            Assert.That(runner.Output.Contains("This is echo base."), Is.True);
+        }
+
+        [Test]
+        public void CommandWillRunInGivenDirectory()
+        {
+            var command = new Command("CommandLineUnitTester", "We read you red 5", @"C:\Program Files");
+
+            var runner = new Runner(command);
+
+            runner.Execute();
+
+            Assert.That(runner.Output.Contains(@"C:\Program Files"), Is.True);
         }
 
         [Test]
         public void CommandWithArguments()
         {
-            const string gitFullLocation = @"C:\Program Files (x86)\Git\bin\git.exe";
-
-            var command = new Command(gitFullLocation, "--version");
+            var command = new Command("CommandLineUnitTester", "We read you red 5");
 
             var runner = new Runner(command);
 
             runner.Execute();
 
-            Assert.That(runner.Output.Contains("git version"), Is.True);
+            Assert.That(runner.Output.Contains("Wereadyoured5"), Is.True);
         }
     }
 }
