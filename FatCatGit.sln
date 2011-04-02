@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.CommandLineRunner", "FatCatGit.CommandLineRunner\FatCatGit.CommandLineRunner.csproj", "{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{37222574-5F4B-4216-BF22-79C2D8411A58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.UnitTests.CommandLineRunner", "FatCatGit.UnitTests.CommandLineRunner\FatCatGit.UnitTests.CommandLineRunner.csproj", "{DFA05C0B-8100-436E-A818-E669CB814FB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +17,15 @@ Global
 		{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA05C0B-8100-436E-A818-E669CB814FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA05C0B-8100-436E-A818-E669CB814FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA05C0B-8100-436E-A818-E669CB814FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA05C0B-8100-436E-A818-E669CB814FB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFA05C0B-8100-436E-A818-E669CB814FB8} = {37222574-5F4B-4216-BF22-79C2D8411A58}
 	EndGlobalSection
 EndGlobal
