@@ -12,8 +12,6 @@ namespace FatCatGit.UnitTests.GitCommands
     [TestFixture]
     public class GitStatusCommandTests : BaseCommandTests
     {
-        
-
         [Test]
         public void GetStatusWillRunForProvidedProject()
         {
@@ -25,7 +23,5 @@ namespace FatCatGit.UnitTests.GitCommands
 
             Assert.That(status.Output.Contains("# On branch "), Is.True);
         }
-
-        
     }
 }

@@ -17,6 +17,8 @@ namespace CommandLineUnitTester
             }
 
             Console.Write(Environment.CurrentDirectory);
+
+            Console.Error.WriteLine("This is on the Error Stream");
         }
     }
 }

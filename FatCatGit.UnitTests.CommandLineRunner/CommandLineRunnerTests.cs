@@ -41,5 +41,17 @@ namespace FatCatGit.UnitTests.CommandLineRunner
 
             Assert.That(runner.Output.Contains("Wereadyoured5"), Is.True);
         }
+
+        [Test]
+        public void CommandRunnerWillHaveErrorOutput()
+        {
+            var command = new Command("CommandLineUnitTester", "We read you red 5");
+
+            var runner = new Runner(command);
+
+            runner.Execute();
+
+            Assert.That(runner.ErrorOutput.Contains("This is on the Error Stream"));
+        }
     }
 }

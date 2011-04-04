@@ -10,6 +10,7 @@ namespace FatCatGit.CommandLineRunner
         {
             Command = command;
             Output = string.Empty;
+            ErrorOutput = string.Empty;
         }
 
         public Command Command { get; set; }
@@ -17,6 +18,8 @@ namespace FatCatGit.CommandLineRunner
 
         private ProcessStartInfo StartInfo { get; set; }
         private Process Process { get; set; }
+
+        public string ErrorOutput { get; set; }
 
         public void Execute()
         {
@@ -41,11 +44,18 @@ namespace FatCatGit.CommandLineRunner
             Process.Start();
 
             Process.BeginOutputReadLine();
+            Process.BeginErrorReadLine();
         }
 
         private void RegisterForOutputEvents()
         {
             Process.OutputDataReceived += OutputDataRecieved;
+            Process.ErrorDataReceived += ErrorDataRecieved;
+        }
+
+        private void ErrorDataRecieved(object sender, DataReceivedEventArgs e)
+        {
+            ErrorOutput += e.Data;
         }
 
         private void OutputDataRecieved(object sender, DataReceivedEventArgs e)
@@ -67,6 +77,7 @@ namespace FatCatGit.CommandLineRunner
                             {
                                 RedirectStandardOutput = true,
                                 RedirectStandardInput = true,
+                                RedirectStandardError = true,
                                 WindowStyle = ProcessWindowStyle.Hidden,
                                 CreateNoWindow = true,
                                 UseShellExecute = false,

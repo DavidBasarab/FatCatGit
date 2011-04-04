@@ -14,7 +14,7 @@
 
         protected override string GitCommandString
         {
-            get { return string.Format("clone -v \"{0}\" \"{1}\"", RepositoryToClone, Destination); }
+            get { return string.Format("clone -v --progress \"{0}\" \"{1}\"", RepositoryToClone, Destination); }
         }
     }
 }

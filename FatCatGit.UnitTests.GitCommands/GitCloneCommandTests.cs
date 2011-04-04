@@ -35,16 +35,16 @@ namespace FatCatGit.UnitTests.GitCommands
                 return;
             }
 
-            var files = directoryToDelete.GetFiles();
-            var dirs = directoryToDelete.GetDirectories();
+            FileInfo[] files = directoryToDelete.GetFiles();
+            DirectoryInfo[] dirs = directoryToDelete.GetDirectories();
 
-            foreach (var file in files)
+            foreach (FileInfo file in files)
             {
                 File.SetAttributes(file.FullName, FileAttributes.Normal);
                 file.Delete();
             }
 
-            foreach (var dir in dirs)
+            foreach (DirectoryInfo dir in dirs)
             {
                 DeleteDirectory(dir);
             }
@@ -65,7 +65,24 @@ namespace FatCatGit.UnitTests.GitCommands
 
             clone.Run();
 
-            Assert.That(clone.Output.Contains(string.Format("Cloning into {0}...", RepositoryDestination)), Is.True);
+            Assert.That(clone.Output.Contains(string.Format("Cloning into {0}...", RepositoryDestination)));
+        }
+
+        [Test]
+        [Ignore("Waiting for Error Stream to be implemented.")]
+        public void WhenCloningARepositoryTheProgressIsProvided()
+        {
+            MockGitLocationForConfiguration();
+
+            var clone = new Clone(GitTestProjectLocation)
+                            {
+                                RepositoryToClone = GitTestProjectLocation,
+                                Destination = RepositoryDestination
+                            };
+
+            clone.Run();
+
+            Assert.Fail();
         }
     }
 }
