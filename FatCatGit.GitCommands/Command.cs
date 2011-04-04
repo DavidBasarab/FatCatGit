@@ -23,13 +23,6 @@ namespace FatCatGit.GitCommands
 
         public string Output { get; set; }
 
-        protected virtual string Arguments { get; set; }
-
-        public string CompiledArugments
-        {
-            get { return string.Format("{0} {1}", GitCommandString, Arguments); }
-        }
-
         private static string GitExecutableLocation
         {
             get { return ConfigurationSettings.Global.GitExecutableLocation; }
@@ -63,7 +56,7 @@ namespace FatCatGit.GitCommands
 
         private void CreateRunnerCommand()
         {
-            _command = new CommandLineRunner.Command(GitExecutableLocation, workingDirectory: ProjectLocation, arguments: CompiledArugments);
+            _command = new CommandLineRunner.Command(GitExecutableLocation, workingDirectory: ProjectLocation, arguments: GitCommandString);
         }
     }
 }
