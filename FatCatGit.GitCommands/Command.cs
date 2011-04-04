@@ -22,6 +22,7 @@ namespace FatCatGit.GitCommands
         }
 
         public string Output { get; set; }
+        public string ErrorOutput { get; set; }
 
         private static string GitExecutableLocation
         {
@@ -47,6 +48,7 @@ namespace FatCatGit.GitCommands
         private void SaveOutput()
         {
             Output = Runner.Output;
+            ErrorOutput = Runner.ErrorOutput;
         }
 
         private void CreateRunner()

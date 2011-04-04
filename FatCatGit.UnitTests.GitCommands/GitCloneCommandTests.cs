@@ -69,7 +69,6 @@ namespace FatCatGit.UnitTests.GitCommands
         }
 
         [Test]
-        [Ignore("Waiting for Error Stream to be implemented.")]
         public void WhenCloningARepositoryTheProgressIsProvided()
         {
             MockGitLocationForConfiguration();
@@ -82,7 +81,7 @@ namespace FatCatGit.UnitTests.GitCommands
 
             clone.Run();
 
-            Assert.Fail();
+            Assert.That(clone.ErrorOutput, Is.StringContaining("Checking out files: 100%"));
         }
     }
 }
