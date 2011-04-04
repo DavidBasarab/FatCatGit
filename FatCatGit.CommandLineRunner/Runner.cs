@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace FatCatGit.CommandLineRunner
@@ -8,6 +9,7 @@ namespace FatCatGit.CommandLineRunner
         public Runner(Command command)
         {
             Command = command;
+            Output = string.Empty;
         }
 
         public Command Command { get; set; }
@@ -27,19 +29,28 @@ namespace FatCatGit.CommandLineRunner
         {
             CreateProcess();
 
-            Process.Start();
+            RegisterForOutputEvents();
 
-            SaveProcessOutput();
+            StartProcess();
+
+            Process.WaitForExit();
         }
 
-        private void SaveProcessOutput()
+        private void StartProcess()
         {
-            using (StreamReader outputStream = Process.StandardOutput)
-            {
-                Process.WaitForExit();
+            Process.Start();
 
-                Output = outputStream.ReadToEnd();
-            }
+            Process.BeginOutputReadLine();
+        }
+
+        private void RegisterForOutputEvents()
+        {
+            Process.OutputDataReceived += OutputDataRecieved;
+        }
+
+        private void OutputDataRecieved(object sender, DataReceivedEventArgs e)
+        {
+            Output += e.Data;
         }
 
         private void CreateProcess()
