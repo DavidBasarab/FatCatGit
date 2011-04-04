@@ -6,9 +6,17 @@ namespace FatCatGit.UnitTests.GitCommands
 {
     public class BaseCommandTests
     {
-        protected const string GitProjectLocation = @"C:\FatCatGit";
-
         protected MockRepository Mocks { get; set; }
+
+        public string GitTestProjectLocation
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings["GitTestProjectLocation"]; }
+        }
+
+        public string GitInstallLocation
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings["GitInstallLocation"]; }
+        }
 
         [SetUp]
         public void SetUp()

@@ -19,7 +19,7 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
-            Status status = new Status(GitProjectLocation);
+            Status status = new Status(GitTestProjectLocation);
 
             status.Run();
 

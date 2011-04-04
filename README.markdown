@@ -6,8 +6,10 @@ I am using [PivotalTracker](https://www.pivotaltracker.com/projects/265427/overv
 
 ## Running Unit Tests
 
-In order to get all the unit tests to pass, the line 
+In order to get all the unit tests to pass, change the configuraiton in FatCat.Git.UnitTets.GitCommands .config file to the correct settings.  
 		
-		const string GitProjectLocation = @"F:\Code\FatCatGit";
+		<add key="GitTestProjectLocation" value="C:\Test\Repo1"/>
+        <add key="GitTestCloneLocation" value="C:\Test\UnitTestRepo"/>
+        <add key="GitInstallLocation" value="C:\Program Files (x86)\Git\bin\git.exe"/>
 		
-must be changed to a valid project.  The file is ..\FatCatGit.UnitTests.GitCommands\GitStatusCommandTests.cs
+GitTestProjectLocation is a test git project that will be used in the unit tests.  

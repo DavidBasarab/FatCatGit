@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
 
@@ -7,8 +8,6 @@ namespace FatCatGit.UnitTests.GitCommands
     [TestFixture]
     public class GitCloneCommandTests : BaseCommandTests
     {
-        #region Setup/Teardown
-
         [TearDown]
         public new void TearDown()
         {
@@ -17,9 +16,10 @@ namespace FatCatGit.UnitTests.GitCommands
             base.TearDown();
         }
 
-        #endregion
-
-        private const string RepositoryDestination = @"C:\Test\UnitTestRepo";
+        public string RepositoryDestination
+        {
+            get { return ConfigurationManager.AppSettings["GitTestCloneLocation"]; }
+        }
 
         public void DeleteDestinationDirectory()
         {
@@ -35,16 +35,16 @@ namespace FatCatGit.UnitTests.GitCommands
                 return;
             }
 
-            FileInfo[] files = directoryToDelete.GetFiles();
-            DirectoryInfo[] dirs = directoryToDelete.GetDirectories();
+            var files = directoryToDelete.GetFiles();
+            var dirs = directoryToDelete.GetDirectories();
 
-            foreach (FileInfo file in files)
+            foreach (var file in files)
             {
                 File.SetAttributes(file.FullName, FileAttributes.Normal);
                 file.Delete();
             }
 
-            foreach (DirectoryInfo dir in dirs)
+            foreach (var dir in dirs)
             {
                 DeleteDirectory(dir);
             }
@@ -57,12 +57,11 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
-            var clone = new Clone(GitProjectLocation);
-
-            const string repoToClone = @"C:\Test\Repo1";
-
-            clone.RepositoryToClone = repoToClone;
-            clone.Destination = RepositoryDestination;
+            var clone = new Clone(GitTestProjectLocation)
+                            {
+                                RepositoryToClone = GitTestProjectLocation,
+                                Destination = RepositoryDestination
+                            };
 
             clone.Run();
 

@@ -39,6 +39,7 @@
       <HintPath>..\ThirdParty\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,6 +51,7 @@
     <Compile Include="BaseCommandTests.cs" />
     <Compile Include="GitCloneCommandTests.cs" />
     <Compile Include="GitStatusCommandTests.cs" />
+    <Compile Include="HookUpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +63,9 @@
       <Project>{1B61554E-A406-41EC-9084-A0918F4EBEFB}</Project>
       <Name>FatCatGit.GitCommands</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
