@@ -26,10 +26,29 @@ namespace CommandLineUnitTester
                 if (args[0].ToLower() == "random")
                 {
                     string[] tempArgs = {
-                                            @"C:\Test\Repo1", "100", "5242880"
+                                            @"C:\Test\Repo1", "51", "5242880"
                                         };
 
                     CreateRandomFiles(tempArgs);
+                }
+
+                var containWait = args.Where(i => i.ToLower() == "wait")
+                                       .Count() > 0;
+
+                if (containWait)
+                {
+
+                    Console.WriteLine("Going to sleep for 100 ms");
+
+                    System.Threading.Thread.Sleep(100);
+
+                    Console.WriteLine("Done sleeping for 100 ms");
+
+                    Console.WriteLine("Going to sleep for 2500 ms");
+
+                    System.Threading.Thread.Sleep(2500);
+
+                    Console.WriteLine("Done sleeping for 2500 ms");
                 }
             }
         }
