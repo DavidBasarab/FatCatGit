@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace FatCatGit.CommandLineRunner
 {
@@ -20,8 +19,18 @@ namespace FatCatGit.CommandLineRunner
         private Process Process { get; set; }
 
         public string ErrorOutput { get; set; }
+        private CommandAsyncResult Result { get; set; }
+
+        public event Action<DataReceivedEventArgs> OutputReceived;
 
         public void Execute()
+        {
+            IAsyncResult result = BeginExecute();
+
+            result.AsyncWaitHandle.WaitOne();
+        }
+
+        private void ExecuteProcess()
         {
             CreateProcessStartInfo();
 
@@ -56,11 +65,31 @@ namespace FatCatGit.CommandLineRunner
         private void ErrorDataRecieved(object sender, DataReceivedEventArgs e)
         {
             ErrorOutput += e.Data;
+
+            TriggerErrorReceivedEvent(e);
+        }
+
+        private void TriggerErrorReceivedEvent(DataReceivedEventArgs e)
+        {
+            if (ErrorOutputReceived != null)
+            {
+                ErrorOutputReceived(e);
+            }
         }
 
         private void OutputDataRecieved(object sender, DataReceivedEventArgs e)
         {
             Output += e.Data;
+
+            TriggerOutputReceivedEvent(e);
+        }
+
+        private void TriggerOutputReceivedEvent(DataReceivedEventArgs e)
+        {
+            if (OutputReceived != null)
+            {
+                OutputReceived(e);
+            }
         }
 
         private void CreateProcess()
@@ -85,5 +114,45 @@ namespace FatCatGit.CommandLineRunner
                                 WorkingDirectory = Command.WorkingDirectory
                             };
         }
+
+        public IAsyncResult BeginExecute()
+        {
+            StartAsyncExecute();
+
+            return Result;
+        }
+
+        private void StartAsyncExecute()
+        {
+            var lockObj = new object();
+
+            lock (lockObj)
+            {
+                CreateCommandResult();
+
+                StartExecutionProcessThread();
+            }
+        }
+
+        private void StartExecutionProcessThread()
+        {
+            Action executationProcess = RunExecuteProcess;
+
+            executationProcess.BeginInvoke(null, null);
+        }
+
+        private void CreateCommandResult()
+        {
+            Result = new CommandAsyncResult();
+        }
+
+        private void RunExecuteProcess()
+        {
+            ExecuteProcess();
+
+            Result.ProcessComplete(Output, ErrorOutput);
+        }
+
+        public event Action<DataReceivedEventArgs> ErrorOutputReceived;
     }
 }

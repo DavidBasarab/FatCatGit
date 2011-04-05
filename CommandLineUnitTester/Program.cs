@@ -14,10 +14,10 @@ namespace CommandLineUnitTester
 
             foreach (var arugment in args)
             {
-                Console.Write(arugment);
+                Console.WriteLine(arugment);
             }
 
-            Console.Write(Environment.CurrentDirectory);
+            Console.WriteLine(Environment.CurrentDirectory);
 
             Console.Error.WriteLine("This is on the Error Stream");
 
