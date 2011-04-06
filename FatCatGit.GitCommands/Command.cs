@@ -1,11 +1,15 @@
-﻿using FatCatGit.CommandLineRunner;
+﻿using System;
+using System.Diagnostics;
+using FatCatGit.CommandLineRunner;
 using FatCatGit.Configuration;
+using FatCatGit.GitCommands.Args;
 
 namespace FatCatGit.GitCommands
 {
     public class Command
     {
         private CommandLineRunner.Command _command;
+        private IAsyncResult _executeCommandResult;
 
         public Command(string projectLocation)
         {
@@ -21,6 +25,8 @@ namespace FatCatGit.GitCommands
             get { return string.Empty; }
         }
 
+        public event GitCommandProgressEvent Progress;
+
         public string Output { get; set; }
         public string ErrorOutput { get; set; }
 
@@ -29,11 +35,11 @@ namespace FatCatGit.GitCommands
             get { return ConfigurationSettings.Global.GitExecutableLocation; }
         }
 
-        public void Run()
+        public IAsyncResult Run()
         {
             ExecuteCommand();
 
-            SaveOutput();
+            return _executeCommandResult;
         }
 
         private void ExecuteCommand()
@@ -42,7 +48,22 @@ namespace FatCatGit.GitCommands
 
             CreateRunner();
 
-            Runner.Execute();
+            _executeCommandResult = Runner.BeginExecute();
+
+            StartSaveOutputProcessThread();
+        }
+
+        private void StartSaveOutputProcessThread()
+        {
+            Action saveOutputProcess = () =>
+                                           {
+                                               _executeCommandResult.AsyncWaitHandle.WaitOne();
+
+                                               SaveOutput();
+                                           };
+
+
+            saveOutputProcess();
         }
 
         private void SaveOutput()
@@ -54,6 +75,19 @@ namespace FatCatGit.GitCommands
         private void CreateRunner()
         {
             Runner = new Runner(_command);
+
+            Runner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
+        }
+
+        private void ErrorOutputReceivedFromRunner(DataReceivedEventArgs obj)
+        {
+            if (Progress != null)
+            {
+                var args = new GitCommandProgressEventArgs();
+                args.Message = obj.Data;
+
+                Progress(this, args);
+            }
         }
 
         private void CreateRunnerCommand()

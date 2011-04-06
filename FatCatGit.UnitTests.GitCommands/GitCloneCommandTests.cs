@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
@@ -63,7 +66,9 @@ namespace FatCatGit.UnitTests.GitCommands
                                 Destination = RepositoryDestination
                             };
 
-            clone.Run();
+            IAsyncResult result = clone.Run();
+
+            result.AsyncWaitHandle.WaitOne();
 
             Assert.That(clone.Output.Contains(string.Format("Cloning into {0}...", RepositoryDestination)));
         }
@@ -79,9 +84,29 @@ namespace FatCatGit.UnitTests.GitCommands
                                 Destination = RepositoryDestination
                             };
 
+            string progressMessage = string.Empty;
+            bool messageRecieved = false;
+
+            clone.Progress += (s, e) =>
+                                  {
+                                      if (!messageRecieved)
+                                      {
+                                          progressMessage = e.Message;
+                                          messageRecieved = true; 
+                                      }
+                                  };
+
             clone.Run();
 
-            Assert.That(clone.ErrorOutput, Is.StringContaining("Checking out files: 100%"));
+            Stopwatch watch = Stopwatch.StartNew();
+
+            while (!messageRecieved && watch.Elapsed < TimeSpan.FromMilliseconds(500))
+            {
+                System.Threading.Thread.Sleep(1);
+            }
+
+            Assert.That(messageRecieved);
+            Assert.That(progressMessage.StartsWith("Checking out files: "));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using FatCatGit.GitCommands.Args;
 
 namespace FatCatGit.GitCommands
 {

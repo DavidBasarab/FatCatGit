@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FatCatGit.Configuration;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
-using Rhino.Mocks;
 
 namespace FatCatGit.UnitTests.GitCommands
 {
@@ -17,9 +12,11 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
-            Status status = new Status(GitTestProjectLocation);
+            var status = new Status(GitTestProjectLocation);
 
-            status.Run();
+            IAsyncResult result = status.Run();
+
+            result.AsyncWaitHandle.WaitOne();
 
             Assert.That(status.Output.Contains("# On branch "), Is.True);
         }
