@@ -34,5 +34,11 @@ namespace FatCatGit.Gui.Forms.SubForms
                 Dispatcher.Invoke(process);
             }
         }
+
+        public string DestinationFolder
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

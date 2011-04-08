@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Gui", "FatCatGit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Gui.Presenter", "FatCatGit.Gui.Presenter\FatCatGit.Gui.Presenter.csproj", "{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.UnitTests.Gui.Presenter", "FatCatGit.UnitTests.Gui.Presenter\FatCatGit.UnitTests.Gui.Presenter.csproj", "{CB894363-A7DE-429B-B373-EBC6D4C67C16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,16 @@ Global
 		{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,5 +131,6 @@ Global
 		{DFA05C0B-8100-436E-A818-E669CB814FB8} = {37222574-5F4B-4216-BF22-79C2D8411A58}
 		{C38FAE73-DD7D-4CBC-AEDE-E598543E7E9A} = {37222574-5F4B-4216-BF22-79C2D8411A58}
 		{2BD73463-F111-40F8-A78C-2077216023EF} = {37222574-5F4B-4216-BF22-79C2D8411A58}
+		{CB894363-A7DE-429B-B373-EBC6D4C67C16} = {37222574-5F4B-4216-BF22-79C2D8411A58}
 	EndGlobalSection
 EndGlobal

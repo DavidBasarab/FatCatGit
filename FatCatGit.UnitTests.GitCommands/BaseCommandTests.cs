@@ -13,6 +13,11 @@ namespace FatCatGit.UnitTests.GitCommands
             get { return System.Configuration.ConfigurationManager.AppSettings["GitTestProjectLocation"]; }
         }
 
+        public string GitEmptyTestProjectLocation
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings["GitEmptyTestProjectLocation"]; }
+        }
+
         public string GitInstallLocation
         {
             get { return System.Configuration.ConfigurationManager.AppSettings["GitInstallLocation"]; }

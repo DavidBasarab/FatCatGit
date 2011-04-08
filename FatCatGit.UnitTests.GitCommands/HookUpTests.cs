@@ -1,31 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using ConfigurationSettings = FatCatGit.Configuration.ConfigurationSettings;
 
 namespace FatCatGit.UnitTests.GitCommands
 {
     [TestFixture(Description = "These test are used to make sure you enviorment is set up correctly to develop unit tests for FatCatGit")]
+    [Category("HookUp")]
     public class HookUpTests : BaseCommandTests
     {
-        [Test]
-        public void GitExists()
+        private static void VerifyValidGitProject(string projectLocation)
         {
-            MockGitLocationForConfiguration();
-
-            FileInfo fileInfo = new FileInfo(ConfigurationSettings.Global.GitExecutableLocation);
-
-            Assert.That(fileInfo.Exists);
-        }
-
-        [Test]
-        public void GitProjectLocationValid()
-        {
-            string projectLocation = ConfigurationManager.AppSettings["GitTestProjectLocation"];
             var projectLocationInfo = new DirectoryInfo(projectLocation);
 
             Assert.That(projectLocationInfo.Exists);
@@ -35,6 +20,30 @@ namespace FatCatGit.UnitTests.GitCommands
             Assert.That(gitFolderLocation.Exists);
         }
 
+        [Test]
+        public void GitEmptyProjectLocationValid()
+        {
+            string projectLocation = ConfigurationManager.AppSettings["GitEmptyTestProjectLocation"];
 
+            VerifyValidGitProject(projectLocation);
+        }
+
+        [Test]
+        public void GitExists()
+        {
+            MockGitLocationForConfiguration();
+
+            var fileInfo = new FileInfo(ConfigurationSettings.Global.GitExecutableLocation);
+
+            Assert.That(fileInfo.Exists);
+        }
+
+        [Test]
+        public void GitProjectLocationValid()
+        {
+            string projectLocation = ConfigurationManager.AppSettings["GitTestProjectLocation"];
+
+            VerifyValidGitProject(projectLocation);
+        }
     }
 }
