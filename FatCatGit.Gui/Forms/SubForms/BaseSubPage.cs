@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows;
 
 namespace FatCatGit.Gui.Forms.SubForms
@@ -10,12 +7,15 @@ namespace FatCatGit.Gui.Forms.SubForms
     {
         private void ShowParentWindow()
         {
-            Window parentWindow = Window.GetWindow(this);
+            var parentWindow = GetWindow(this);
 
-            parentWindow.Owner.Visibility = Visibility.Visible;
+            if (parentWindow != null)
+            {
+                parentWindow.Owner.Visibility = Visibility.Visible;
+            }
         }
 
-        private void FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        protected void FormClosing(object sender, CancelEventArgs e)
         {
             ShowParentWindow();
         }

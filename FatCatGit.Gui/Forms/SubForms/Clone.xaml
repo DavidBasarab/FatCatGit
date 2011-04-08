@@ -5,8 +5,32 @@
                       Title="FatCatGit - Clone" Height="300" Width="600"
         WindowStyle="ThreeDBorderWindow" Closing="FormClosing">
     <Grid>
-        <Label>
-            THIS will is where you will clone a repository
-        </Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel
+            Grid.Column="0"
+            Grid.Row="0"
+            >
+            <Label
+                DockPanel.Dock="Left"
+                Margin="5"
+                VerticalAlignment="Center"
+                >
+                Repository
+            </Label>
+            <TextBox
+                Margin="5"
+                x:Name="txtRepository"
+                DockPanel.Dock="Left"
+                VerticalAlignment="Center"
+                >
+                
+            </TextBox>
+        </DockPanel>
     </Grid>
 </src:BaseSubPage>
