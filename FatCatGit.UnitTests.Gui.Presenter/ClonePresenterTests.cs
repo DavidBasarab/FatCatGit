@@ -32,6 +32,15 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             return cloneView;
         }
 
+        private void VerifyGitRepositoryName(string gitUrl)
+        {
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(gitUrl, string.Format("{0}\\{1}", DestinationLocation, "FatCatGit"));
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(DestinationLocation);
+        }
+
         [Test]
         public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
         {
@@ -40,6 +49,19 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             var presenter = new ClonePresenter(cloneView);
 
             presenter.SetDestinationFolder(DestinationLocation);
+        }
+
+        [Test]
+        [ExpectedException(typeof (InvalidDirectoryException))]
+        public void InvalidFolderWillThrowAnInvalidDirectoryException()
+        {
+            var cloneView = Mocks.DynamicMock<CloneView>();
+
+            Mocks.ReplayAll();
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(@"C:\REALLY_FAKE_FOLDER_LOCATION");
         }
 
         [Test]
@@ -63,16 +85,43 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidDirectoryException))]
-        public void InvalidFolderWillThrowAnInvalidDirectoryException()
+        public void WillDetermineRepoFromGitHubUrl()
         {
-            var cloneView = Mocks.DynamicMock<CloneView>();
+            const string gitUrl = @"git@github.com:DavidBasarab/FatCatGit.git";
 
-            Mocks.ReplayAll();
+            VerifyGitRepositoryName(gitUrl);
+        }
 
-            var presenter = new ClonePresenter(cloneView);
+        [Test]
+        public void WillDetermineRepoNameFromRemoteRepoistory()
+        {
+            const string gitUrl = @"git@127.0.0.1:FatCatGit.git";
 
-            presenter.SetDestinationFolder(@"C:\REALLY_FAKE_FOLDER_LOCATION");
+            VerifyGitRepositoryName(gitUrl);
+        }
+
+        [Test]
+        public void WillDetermineSshRepoName()
+        {
+            const string gitUrl = @"ssh://[user@]host.xz[:port]/path/to/FatCatGit.git/";
+
+            VerifyGitRepositoryName(gitUrl);
+        }
+
+        [Test]
+        public void WillDetermineHttpsRepoName()
+        {
+            const string gitUrl = @"http[s]://host.xz[:port]/path/to/FatCatGit.git/";
+
+            VerifyGitRepositoryName(gitUrl);
+        }
+
+        [Test]
+        public void WillDetermineFtpsRepoName()
+        {
+            const string gitUrl = @"ftp[s]://host.xz[:port]/path/to/FatCatGit.git/";
+
+            VerifyGitRepositoryName(gitUrl);
         }
     }
 }

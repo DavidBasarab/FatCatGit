@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace FatCatGit.UnitTests.GitCommands
 {
     [TestFixture]
+    [Category("Git Commands")]
     public class GitStatusCommandTests : BaseCommandTests
     {
         [Test]

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace FatCatGit.UnitTests.CommandLineRunner
 {
     [TestFixture]
+    [Category("Command Line Runner")]
     public class CommandLineRunnerTests
     {
         [Test]

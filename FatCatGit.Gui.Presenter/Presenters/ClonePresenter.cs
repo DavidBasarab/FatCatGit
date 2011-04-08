@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using FatCatGit.Gui.Presenter.Exceptions;
 using FatCatGit.Gui.Presenter.Views;
 
@@ -7,11 +6,19 @@ namespace FatCatGit.Gui.Presenter.Presenters
 {
     public class ClonePresenter
     {
-        private CloneView View { get; set; }
+        private GitProject _gitProject;
 
         public ClonePresenter(CloneView view)
         {
             View = view;
+        }
+
+        private CloneView View { get; set; }
+
+        public GitProject GitProject
+        {
+            get { return _gitProject ?? (_gitProject = new GitProject(View.RepositoryToClone)); }
+            set { _gitProject = value; }
         }
 
         public void SetDestinationFolder(string destinationFolderLocation)
@@ -28,9 +35,7 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         private string FindRepositoryProject()
         {
-            var directoryInfo = new DirectoryInfo(View.RepositoryToClone);
-
-            return directoryInfo.Name;
+            return GitProject.RepostoryName;
         }
     }
 }

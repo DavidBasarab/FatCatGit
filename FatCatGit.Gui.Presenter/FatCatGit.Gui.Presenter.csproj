@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\InvalidDirectory.cs" />
     <Compile Include="GitDirectory.cs" />
+    <Compile Include="GitProject.cs" />
     <Compile Include="Presenters\ClonePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\CloneView.cs" />

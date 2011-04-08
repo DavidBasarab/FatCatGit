@@ -9,6 +9,8 @@ using NUnit.Framework;
 namespace FatCatGit.UnitTests.GitCommands
 {
     [TestFixture]
+    [Category("Git Commands")]
+    [Ignore("Need to figure out how to make faster")]
     public class GitCloneCommandTests : BaseCommandTests
     {
         [TearDown]
@@ -74,7 +76,6 @@ namespace FatCatGit.UnitTests.GitCommands
         }
 
         [Test]
-        [Ignore("Test is taking too long.  TODO Must figure out a way to speed up")]
         public void WhenCloningARepositoryTheProgressIsProvided()
         {
             MockGitLocationForConfiguration();
