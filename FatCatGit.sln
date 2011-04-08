@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.UnitTests.GitComm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Configuration", "FatCatGit.Configuration\FatCatGit.Configuration.csproj", "{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Gui", "FatCatGit.Gui\FatCatGit.Gui.csproj", "{903F50AE-F463-41DA-ADD2-31CB7EE15835}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,17 @@ Global
 		{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}.Release|x86.ActiveCfg = Release|Any CPU
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|Any CPU.Build.0 = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|x86.ActiveCfg = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Debug|x86.Build.0 = Debug|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Release|Any CPU.ActiveCfg = Release|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Release|Mixed Platforms.Build.0 = Release|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Release|x86.ActiveCfg = Release|x86
+		{903F50AE-F463-41DA-ADD2-31CB7EE15835}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
