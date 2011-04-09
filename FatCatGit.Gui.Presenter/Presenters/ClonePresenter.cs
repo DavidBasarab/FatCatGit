@@ -1,6 +1,4 @@
-﻿using System.IO;
-using FatCatGit.Gui.Presenter.Exceptions;
-using FatCatGit.Gui.Presenter.Views;
+﻿using FatCatGit.Gui.Presenter.Views;
 
 namespace FatCatGit.Gui.Presenter.Presenters
 {
@@ -23,19 +21,36 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public void SetDestinationFolder(string destinationFolderLocation)
         {
-            var gitDirectory = new GitDirectory(destinationFolderLocation);
-
-            if (!gitDirectory.Exists)
+            if (string.IsNullOrEmpty(destinationFolderLocation))
             {
-                throw new InvalidDirectoryException();
+                return;
             }
 
-            View.DestinationFolder = string.Format("{0}{1}", gitDirectory.FullName, FindRepositoryProject());
+            DetermineDestinationFolder(destinationFolderLocation);
         }
 
-        private string FindRepositoryProject()
+        private void DetermineDestinationFolder(string destinationFolderLocation)
         {
-            return GitProject.RepostoryName;
+            var gitDirectory = new GitDirectory(destinationFolderLocation);
+
+            if (DoesSelectedFolderHaveSameNameAsRepo(destinationFolderLocation))
+            {
+                View.DestinationFolder = destinationFolderLocation;
+            }
+            else
+            {
+                AddRepoNameToDestinationFolder(gitDirectory);
+            }
+        }
+
+        private void AddRepoNameToDestinationFolder(GitDirectory gitDirectory)
+        {
+            View.DestinationFolder = string.Format("{0}{1}", gitDirectory.FullName, GitProject.RepostoryName);
+        }
+
+        private bool DoesSelectedFolderHaveSameNameAsRepo(string destinationFolderLocation)
+        {
+            return destinationFolderLocation.EndsWith(GitProject.RepostoryName) || destinationFolderLocation.EndsWith(string.Format("{0}\\", GitProject.RepostoryName));
         }
     }
 }

@@ -26,6 +26,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             cloneView.Expect(v => v.RepositoryToClone).Return(repositoryToClone);
 
             cloneView.DestinationFolder = expectedDestinationFolder;
+            LastCall.PropertyBehavior();
 
             Mocks.ReplayAll();
 
@@ -34,54 +35,92 @@ namespace FatCatGit.UnitTests.Gui.Presenter
 
         private void VerifyGitRepositoryName(string gitUrl)
         {
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(gitUrl, string.Format("{0}\\{1}", DestinationLocation, "FatCatGit"));
+            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "FatCatGit");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(gitUrl, expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
             presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
 
         [Test]
-        public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
-        {
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest"));
-
-            var presenter = new ClonePresenter(cloneView);
-
-            presenter.SetDestinationFolder(DestinationLocation);
-        }
-
-        [Test]
-        [ExpectedException(typeof (InvalidDirectoryException))]
-        public void InvalidFolderWillThrowAnInvalidDirectoryException()
+        public void IfDestinationFolderBlankItIsNotSet()
         {
             var cloneView = Mocks.DynamicMock<CloneView>();
+
+            cloneView.Expect(v => v.RepositoryToClone).IgnoreArguments().Repeat.Never();
+
+            cloneView.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+            LastCall.IgnoreArguments();
+            LastCall.Repeat.Never();
 
             Mocks.ReplayAll();
 
             var presenter = new ClonePresenter(cloneView);
 
-            presenter.SetDestinationFolder(@"C:\REALLY_FAKE_FOLDER_LOCATION");
+            presenter.SetDestinationFolder(null);
+
+            Assert.That(cloneView.DestinationFolder, Is.Null);
+        }
+
+        [Test]
+        public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
+        {
+            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
 
         [Test]
         public void SpecificyDestionationFolderWillUseRepositoryNameAsSubFolder()
         {
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, string.Format("{0}\\{1}", DestinationLocation, "SomeTestRepository"));
+            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SomeTestRepository");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
             presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+        }
+
+        [Test]
+        public void IfDirectoryEndsInRepoNameDoNotAdd()
+        {
+            string expectedDestinationFolder = string.Format("{0}\\{1}\\", DestinationLocation, "SomeTestRepository");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, expectedDestinationFolder);
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(expectedDestinationFolder);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
 
         [Test]
         public void SpecificyDestionationFolderWillUseRepositoryNameAsSubFolderWhenRepoUnderParentFolder()
         {
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest"));
+            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
             presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
 
         [Test]

@@ -10,6 +10,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <DockPanel
@@ -27,9 +28,27 @@
                 Margin="5"
                 x:Name="txtRepository"
                 DockPanel.Dock="Left"
+                VerticalAlignment="Center" LostFocus="RepositoryLostFocus">
+                
+            </TextBox>
+        </DockPanel>
+        <DockPanel
+            Grid.Column="0"
+            Grid.Row="1"
+            >
+            <Label
+                DockPanel.Dock="Left"
+                Margin="5"
                 VerticalAlignment="Center"
                 >
-                
+                Destination
+            </Label>
+            <TextBox
+                Margin="5"
+                x:Name="txtDestination"
+                DockPanel.Dock="Left"
+                VerticalAlignment="Center" LostFocus="DestinationLostFocus">
+
             </TextBox>
         </DockPanel>
     </Grid>

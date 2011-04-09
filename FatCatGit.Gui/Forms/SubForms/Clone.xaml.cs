@@ -37,8 +37,36 @@ namespace FatCatGit.Gui.Forms.SubForms
 
         public string DestinationFolder
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get
+            {
+                string repositoryToClone = string.Empty;
+
+                Action process = () => repositoryToClone = txtDestination.Text;
+
+                Dispatcher.Invoke(process);
+
+                return repositoryToClone;
+            }
+            set
+            {
+                Action process = () => txtDestination.Text = value;
+
+                Dispatcher.Invoke(process);
+            }
         }
+
+        private void DestinationLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Presenter.SetDestinationFolder(txtDestination.Text);
+        }
+
+        private void RepositoryLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Presenter.SetDestinationFolder(txtDestination.Text);
+        }
+
+
+
+        
     }
 }
