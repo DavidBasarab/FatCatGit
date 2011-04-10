@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Windows.Threading;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
+using System.Windows.Media.Animation;
 
 namespace FatCatGit.Gui.Forms.SubForms
 {
-    public partial class Clone : BaseSubPage, CloneView
+    public partial class Clone : BaseSubForm, CloneView
     {
-        public ClonePresenter Presenter { get; set; }
+        private ClonePresenter Presenter { get; set; }
+
+        private bool DestionationFolderVisible { get; set; }
 
         public Clone()
         {
@@ -65,8 +69,45 @@ namespace FatCatGit.Gui.Forms.SubForms
             Presenter.SetDestinationFolder(txtDestination.Text);
         }
 
+        private void RepositoryTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (ShouldShowDestionationFolder())
+            {
+                ShowDestinationFolder();
+            }
 
+            if (ShouldHideDestinationFolder())
+            {
+                HideDestinationFolder();
+            }
+        }
 
-        
+        private void HideDestinationFolder()
+        {
+            DestionationFolderVisible = false;
+
+            var hideDestination = (Storyboard)Resources["DestinationFolderHide"];
+
+            hideDestination.Begin();
+        }
+
+        private void ShowDestinationFolder()
+        {
+            DestionationFolderVisible = true;
+
+            var showDestination = (Storyboard)Resources["DestinationShow"];
+
+            showDestination.Begin();
+        }
+
+        private bool ShouldHideDestinationFolder()
+        {
+            return string.IsNullOrEmpty(txtRepository.Text) && DestionationFolderVisible;
+        }
+
+        private bool ShouldShowDestionationFolder()
+        {
+            return !string.IsNullOrEmpty(txtRepository.Text) && !DestionationFolderVisible;
+        }
     }
 }
