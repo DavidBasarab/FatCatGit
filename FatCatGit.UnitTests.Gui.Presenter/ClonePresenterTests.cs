@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using FatCatGit.Gui.Presenter.Exceptions;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
 using NUnit.Framework;
@@ -47,6 +46,20 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
+        public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
+        {
+            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+        }
+
+        [Test]
         public void IfDestinationFolderBlankItIsNotSet()
         {
             var cloneView = Mocks.DynamicMock<CloneView>();
@@ -68,15 +81,15 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
-        public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
+        public void IfDirectoryEndsInRepoNameDoNotAdd()
         {
-            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+            string expectedDestinationFolder = string.Format("{0}\\{1}\\", DestinationLocation, "SomeTestRepository");
 
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
-            presenter.SetDestinationFolder(DestinationLocation);
+            presenter.SetDestinationFolder(expectedDestinationFolder);
 
             Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
@@ -96,20 +109,6 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
-        public void IfDirectoryEndsInRepoNameDoNotAdd()
-        {
-            string expectedDestinationFolder = string.Format("{0}\\{1}\\", DestinationLocation, "SomeTestRepository");
-
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, expectedDestinationFolder);
-
-            var presenter = new ClonePresenter(cloneView);
-
-            presenter.SetDestinationFolder(expectedDestinationFolder);
-
-            Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
-        }
-
-        [Test]
         public void SpecificyDestionationFolderWillUseRepositoryNameAsSubFolderWhenRepoUnderParentFolder()
         {
             string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
@@ -121,6 +120,91 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.SetDestinationFolder(DestinationLocation);
 
             Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+        }
+
+        [Test]
+        public void WhenTextIsAddedToRepositoryDisplayDestionationIsCalled()
+        {
+            var view = Mocks.DynamicMock<CloneView>();
+
+            view.Expect(v => v.DisplayDestinationFolder());
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "somedata";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+        }
+
+        [Test]
+        public void WhenTextIsRemovedToRepositoryHideDisplayIsCalled()
+        {
+            var view = Mocks.DynamicMock<CloneView>();
+
+            view.Expect(v => v.HideDestinationFolder());
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = null;
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
+        }
+
+        [Test]
+        public void SecondTImeRepositoryToCloneChangedAndValidTextNoChangeWithDestionationFolderOccuers()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "somedata";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+
+            view.RepositoryToClone = "new data";
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+        }
+
+        [Test]
+        public void WillDetermineFtpsRepoName()
+        {
+            const string gitUrl = @"ftp[s]://host.xz[:port]/path/to/FatCatGit.git/";
+
+            VerifyGitRepositoryName(gitUrl);
+        }
+
+        [Test]
+        public void WillDetermineHttpsRepoName()
+        {
+            const string gitUrl = @"http[s]://host.xz[:port]/path/to/FatCatGit.git/";
+
+            VerifyGitRepositoryName(gitUrl);
         }
 
         [Test]
@@ -143,22 +227,6 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         public void WillDetermineSshRepoName()
         {
             const string gitUrl = @"ssh://[user@]host.xz[:port]/path/to/FatCatGit.git/";
-
-            VerifyGitRepositoryName(gitUrl);
-        }
-
-        [Test]
-        public void WillDetermineHttpsRepoName()
-        {
-            const string gitUrl = @"http[s]://host.xz[:port]/path/to/FatCatGit.git/";
-
-            VerifyGitRepositoryName(gitUrl);
-        }
-
-        [Test]
-        public void WillDetermineFtpsRepoName()
-        {
-            const string gitUrl = @"ftp[s]://host.xz[:port]/path/to/FatCatGit.git/";
 
             VerifyGitRepositoryName(gitUrl);
         }

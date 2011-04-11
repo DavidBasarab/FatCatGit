@@ -1,4 +1,5 @@
-﻿using FatCatGit.Gui.Presenter.Views;
+﻿using System;
+using FatCatGit.Gui.Presenter.Views;
 
 namespace FatCatGit.Gui.Presenter.Presenters
 {
@@ -52,5 +53,24 @@ namespace FatCatGit.Gui.Presenter.Presenters
         {
             return destinationFolderLocation.EndsWith(GitProject.RepostoryName) || destinationFolderLocation.EndsWith(string.Format("{0}\\", GitProject.RepostoryName));
         }
+
+        public void RepositoryToCloneChanged()
+        {
+            if (!string.IsNullOrEmpty(View.RepositoryToClone) && !DestinationFolderDisplayed)
+            {
+                View.DisplayDestinationFolder();
+
+                DestinationFolderDisplayed = true;
+            }
+
+            if (string.IsNullOrEmpty(View.RepositoryToClone))
+            {
+                View.HideDestinationFolder();
+
+                DestinationFolderDisplayed = false;
+            }
+        }
+
+        public bool DestinationFolderDisplayed { get; private set; }
     }
 }

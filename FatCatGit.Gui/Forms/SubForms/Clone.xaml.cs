@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Windows.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
-using System.Windows.Media.Animation;
 
 namespace FatCatGit.Gui.Forms.SubForms
 {
     public partial class Clone : BaseSubForm, CloneView
     {
-        private ClonePresenter Presenter { get; set; }
-
-        private bool DestionationFolderVisible { get; set; }
-
         public Clone()
         {
             InitializeComponent();
 
             Presenter = new ClonePresenter(this);
         }
+
+        private ClonePresenter Presenter { get; set; }
+
+        private bool DestionationFolderVisible { get; set; }
 
         public string RepositoryToClone
         {
@@ -59,30 +60,23 @@ namespace FatCatGit.Gui.Forms.SubForms
             }
         }
 
-        private void DestinationLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        public bool DestinationFolderDisplayed { get; set; }
+
+        public void RespistoryToCloneChanged()
         {
-            Presenter.SetDestinationFolder(txtDestination.Text);
+            throw new NotImplementedException();
         }
 
-        private void RepositoryLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        public void DisplayDestinationFolder()
         {
-            Presenter.SetDestinationFolder(txtDestination.Text);
+            DestionationFolderVisible = true;
+
+            var showDestination = (Storyboard)Resources["DestinationShow"];
+
+            showDestination.Begin();
         }
 
-        private void RepositoryTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            if (ShouldShowDestionationFolder())
-            {
-                ShowDestinationFolder();
-            }
-
-            if (ShouldHideDestinationFolder())
-            {
-                HideDestinationFolder();
-            }
-        }
-
-        private void HideDestinationFolder()
+        public void HideDestinationFolder()
         {
             DestionationFolderVisible = false;
 
@@ -91,13 +85,27 @@ namespace FatCatGit.Gui.Forms.SubForms
             hideDestination.Begin();
         }
 
-        private void ShowDestinationFolder()
+        private void DestinationLostFocus(object sender, RoutedEventArgs e)
         {
-            DestionationFolderVisible = true;
+            Presenter.SetDestinationFolder(txtDestination.Text);
+        }
 
-            var showDestination = (Storyboard)Resources["DestinationShow"];
+        private void RepositoryLostFocus(object sender, RoutedEventArgs e)
+        {
+            Presenter.SetDestinationFolder(txtDestination.Text);
+        }
 
-            showDestination.Begin();
+        private void RepositoryTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ShouldShowDestionationFolder())
+            {
+                DisplayDestinationFolder();
+            }
+
+            if (ShouldHideDestinationFolder())
+            {
+                HideDestinationFolder();
+            }
         }
 
         private bool ShouldHideDestinationFolder()

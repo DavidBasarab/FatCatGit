@@ -9,5 +9,8 @@ namespace FatCatGit.Gui.Presenter.Views
     {
         string RepositoryToClone { get; set; }
         string DestinationFolder { get; set; }
+
+        void DisplayDestinationFolder();
+        void HideDestinationFolder();
     }
 }
