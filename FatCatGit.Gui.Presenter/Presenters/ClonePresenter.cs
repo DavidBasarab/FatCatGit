@@ -1,5 +1,4 @@
-﻿using System;
-using FatCatGit.Gui.Presenter.Views;
+﻿using FatCatGit.Gui.Presenter.Views;
 
 namespace FatCatGit.Gui.Presenter.Presenters
 {
@@ -19,6 +18,8 @@ namespace FatCatGit.Gui.Presenter.Presenters
             get { return _gitProject ?? (_gitProject = new GitProject(View.RepositoryToClone)); }
             set { _gitProject = value; }
         }
+
+        public bool DestinationFolderDisplayed { get; private set; }
 
         public void SetDestinationFolder(string destinationFolderLocation)
         {
@@ -56,21 +57,39 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public void RepositoryToCloneChanged()
         {
-            if (!string.IsNullOrEmpty(View.RepositoryToClone) && !DestinationFolderDisplayed)
+            if (ShouldDestinationFolderBeDisplayed())
             {
-                View.DisplayDestinationFolder();
-
-                DestinationFolderDisplayed = true;
+                DisplayDestionFolder();
             }
 
-            if (string.IsNullOrEmpty(View.RepositoryToClone))
+            if (ShouldDestinationFolderBeHidden())
             {
-                View.HideDestinationFolder();
-
-                DestinationFolderDisplayed = false;
+                HideDestionationFolder();
             }
         }
 
-        public bool DestinationFolderDisplayed { get; private set; }
+        private void HideDestionationFolder()
+        {
+            View.HideDestinationFolder();
+
+            DestinationFolderDisplayed = false;
+        }
+
+        private void DisplayDestionFolder()
+        {
+            View.DisplayDestinationFolder();
+
+            DestinationFolderDisplayed = true;
+        }
+
+        private bool ShouldDestinationFolderBeHidden()
+        {
+            return string.IsNullOrEmpty(View.RepositoryToClone) && DestinationFolderDisplayed;
+        }
+
+        private bool ShouldDestinationFolderBeDisplayed()
+        {
+            return !string.IsNullOrEmpty(View.RepositoryToClone) && !DestinationFolderDisplayed;
+        }
     }
 }

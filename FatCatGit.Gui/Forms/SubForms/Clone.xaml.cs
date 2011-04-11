@@ -60,11 +60,9 @@ namespace FatCatGit.Gui.Forms.SubForms
             }
         }
 
-        public bool DestinationFolderDisplayed { get; set; }
-
-        public void RespistoryToCloneChanged()
+        public void RespositoryToCloneChanged()
         {
-            throw new NotImplementedException();
+            Presenter.RepositoryToCloneChanged();
         }
 
         public void DisplayDestinationFolder()
@@ -97,25 +95,7 @@ namespace FatCatGit.Gui.Forms.SubForms
 
         private void RepositoryTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ShouldShowDestionationFolder())
-            {
-                DisplayDestinationFolder();
-            }
-
-            if (ShouldHideDestinationFolder())
-            {
-                HideDestinationFolder();
-            }
-        }
-
-        private bool ShouldHideDestinationFolder()
-        {
-            return string.IsNullOrEmpty(txtRepository.Text) && DestionationFolderVisible;
-        }
-
-        private bool ShouldShowDestionationFolder()
-        {
-            return !string.IsNullOrEmpty(txtRepository.Text) && !DestionationFolderVisible;
+            RespositoryToCloneChanged();
         }
     }
 }

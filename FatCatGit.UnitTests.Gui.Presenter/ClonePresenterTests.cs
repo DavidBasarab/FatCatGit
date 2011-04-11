@@ -155,9 +155,13 @@ namespace FatCatGit.UnitTests.Gui.Presenter
 
             Mocks.ReplayAll();
 
-            view.RepositoryToClone = null;
+            view.RepositoryToClone = "some early data";
 
             var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            view.RepositoryToClone = null;
 
             presenter.RepositoryToCloneChanged();
 
@@ -189,6 +193,61 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.RepositoryToCloneChanged();
 
             Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+        }
+
+        [Test]
+        public void HideDestionationFolderWillNotBeCalledTwiceWhenNoChange()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.HideDestinationFolder()).Repeat.Once();
+            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "some data to get test set up";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+
+            view.RepositoryToClone = null;
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
+
+            view.RepositoryToClone = null;
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
+        }
+
+        [Test]
+        public void WhenRespitoryToChangeIsNullAndAChangeEventWillNotDisplayDestination()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.HideDestinationFolder()).Repeat.Never();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = null;
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
         }
 
         [Test]
