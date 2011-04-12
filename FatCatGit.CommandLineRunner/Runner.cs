@@ -148,9 +148,16 @@ namespace FatCatGit.CommandLineRunner
 
         private void RunExecuteProcess()
         {
-            ExecuteProcess();
+            try
+            {
+                ExecuteProcess();
 
-            Result.ProcessComplete(Output, ErrorOutput);
+                Result.ProcessComplete(Output, ErrorOutput);
+            }
+            catch (Exception ex)
+            {
+                Result.ProcessComplete(null, string.Format("{0}|{1}", ex.Message, ex.StackTrace));
+            }
         }
 
         public event Action<DataReceivedEventArgs> ErrorOutputReceived;
