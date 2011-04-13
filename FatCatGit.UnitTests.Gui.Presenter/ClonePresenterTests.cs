@@ -15,8 +15,8 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             get { return ConfigurationManager.AppSettings["DestinationLocation"]; }
         }
 
-        private const string TestRepository = @"C:\SomeTestRepository";
-        private const string TestRepositoryWithSubFolder = @"C:\SomeTestRepository\SubFolderTest";
+        private const string TestRepository = @"F:\SomeTestRepository";
+        private const string TestRepositoryWithSubFolder = @"F:\SomeTestRepository\SubFolderTest";
 
         private CloneView SetUpClonePresenterTestWithRepositry(string repositoryToClone, string expectedDestinationFolder)
         {
@@ -248,6 +248,30 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.RepositoryToCloneChanged();
 
             Assert.That(presenter.DestinationFolderDisplayed, Is.False);
+        }
+
+        [Test]
+        public void WhenRepositoryAndDestinaitonArePopulatedCloneButtonIsShown()
+        {
+            CloneView view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.ShowCloneButton());
+
+            view.RepositoryToClone = null;
+            LastCall.PropertyBehavior();
+
+            view.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "some value";
+
+            ClonePresenter presenter = new ClonePresenter(view);
+
+            presenter.SetDestinationFolder("another value");
+
+            Assert.That(presenter.IsCloneButtonShown, Is.True);
         }
 
         [Test]

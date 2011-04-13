@@ -83,6 +83,16 @@ namespace FatCatGit.Gui.Forms.SubForms
             hideDestination.Begin();
         }
 
+        public void ShowCloneButton()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HideCloneButton()
+        {
+            throw new NotImplementedException();
+        }
+
         private void DestinationLostFocus(object sender, RoutedEventArgs e)
         {
             Presenter.SetDestinationFolder(txtDestination.Text);

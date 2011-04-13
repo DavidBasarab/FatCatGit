@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FatCatGit.Gui.Presenter.Views
+﻿namespace FatCatGit.Gui.Presenter.Views
 {
     public interface CloneView
     {
@@ -12,5 +7,8 @@ namespace FatCatGit.Gui.Presenter.Views
 
         void DisplayDestinationFolder();
         void HideDestinationFolder();
+
+        void ShowCloneButton();
+        void HideCloneButton();
     }
 }

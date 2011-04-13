@@ -19,7 +19,9 @@ namespace FatCatGit.UnitTests.GitCommands
 
             result.AsyncWaitHandle.WaitOne();
 
-            Assert.That(status.Output.Contains("# On branch "), Is.True);
+            Console.WriteLine(status.ErrorOutput);
+
+            Assert.That(status.Output, Contains.Substring("# On branch "));
         }
     }
 }

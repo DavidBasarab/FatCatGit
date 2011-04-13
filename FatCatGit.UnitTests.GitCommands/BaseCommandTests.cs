@@ -43,7 +43,7 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             var globalConfiguration = Mocks.DynamicMock<GlobalConfiguration>();
 
-            globalConfiguration.Expect(v => v.GitExecutableLocation).Return(@"C:\Program Files (x86)\Git\bin\git.exe");
+            globalConfiguration.Expect(v => v.GitExecutableLocation).Return(GitInstallLocation);
 
             ConfigurationSettings.Global = globalConfiguration;
 

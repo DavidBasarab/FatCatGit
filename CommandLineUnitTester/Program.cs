@@ -26,7 +26,7 @@ namespace CommandLineUnitTester
                 if (args[0].ToLower() == "random")
                 {
                     string[] tempArgs = {
-                                            @"C:\Test\Repo1", "51", "5242880"
+                                            @"F:\Test\Repo1", "51", "5242880"
                                         };
 
                     CreateRandomFiles(tempArgs);

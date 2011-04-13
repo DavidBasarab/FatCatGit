@@ -21,6 +21,8 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public bool DestinationFolderDisplayed { get; private set; }
 
+        public bool IsCloneButtonShown { get; set; }
+
         public void SetDestinationFolder(string destinationFolderLocation)
         {
             if (string.IsNullOrEmpty(destinationFolderLocation))
@@ -29,6 +31,28 @@ namespace FatCatGit.Gui.Presenter.Presenters
             }
 
             DetermineDestinationFolder(destinationFolderLocation);
+
+            HandleCloneButtronDisplay();
+        }
+
+        private void HandleCloneButtronDisplay()
+        {
+            if (IsRepositryAndDestionationPopulated())
+            {
+                ShowCloneButton();
+            }
+        }
+
+        private void ShowCloneButton()
+        {
+            View.ShowCloneButton();
+
+            IsCloneButtonShown = true;
+        }
+
+        private bool IsRepositryAndDestionationPopulated()
+        {
+            return !string.IsNullOrEmpty(View.RepositoryToClone) && !string.IsNullOrEmpty(View.DestinationFolder);
         }
 
         private void DetermineDestinationFolder(string destinationFolderLocation)
