@@ -46,18 +46,33 @@ namespace FatCatGit.Gui.Presenter
 
         private bool IsProjectTypeAUrl()
         {
-            return ValidUrlProjects.Any(validUrlProject => ProjectUri.StartsWith(validUrlProject));
+            return IsProjectUriValid() && ValidUrlProjects.Any(validUrlProject => ProjectUri.StartsWith(validUrlProject));
         }
 
         private string DetermineFolderRepositoryName()
         {
+            if (!IsProjectUriValid())
+            {
+                return string.Empty;
+            }
+
             var directoryInfo = new DirectoryInfo(ProjectUri);
 
             return directoryInfo.Name;
         }
 
+        private bool IsProjectUriValid()
+        {
+            return !string.IsNullOrEmpty(ProjectUri);
+        }
+
         private string DetermineUriRepositoryName()
         {
+            if (!IsProjectUriValid())
+            {
+                return string.Empty;
+            }
+
             // TODO:  Doing this with string indexs now.  Should look into regex eventually
 
             int index = ProjectUri.IndexOf(".git");

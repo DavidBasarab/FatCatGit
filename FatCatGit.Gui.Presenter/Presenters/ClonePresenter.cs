@@ -41,6 +41,17 @@ namespace FatCatGit.Gui.Presenter.Presenters
             {
                 ShowCloneButton();
             }
+            else
+            {
+                HideCloneButton();
+            }
+        }
+
+        private void HideCloneButton()
+        {
+            View.HideCloneButton();
+
+            IsCloneButtonShown = false;
         }
 
         private void ShowCloneButton()
