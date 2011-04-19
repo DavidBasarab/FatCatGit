@@ -111,5 +111,10 @@ namespace FatCatGit.Gui.Forms.SubForms
         {
             RespositoryToCloneChanged();
         }
+
+        private void DestinationTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Presenter.DestionFolderTextChanged();
+        }
     }
 }

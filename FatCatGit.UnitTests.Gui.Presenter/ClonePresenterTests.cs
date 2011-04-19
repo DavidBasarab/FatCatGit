@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
 using NUnit.Framework;
@@ -46,6 +45,40 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
         }
 
+        private CloneView SetUpTestForDisplayCloneButton()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.ShowCloneButton());
+
+            view.RepositoryToClone = null;
+            LastCall.PropertyBehavior();
+
+            view.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+            return view;
+        }
+
+        private CloneView SetUpTestForHideCloneButton()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.ShowCloneButton()).Repeat.Once();
+
+            view.Expect(v => v.HideCloneButton());
+
+            view.RepositoryToClone = null;
+            LastCall.PropertyBehavior();
+
+            view.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+            return view;
+        }
+
         [Test]
         public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
         {
@@ -58,6 +91,40 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.SetDestinationFolder(DestinationLocation);
 
             Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+        }
+
+        [Test]
+        public void HideDestionationFolderWillNotBeCalledTwiceWhenNoChange()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.HideDestinationFolder()).Repeat.Once();
+            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "some data to get test set up";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+
+            view.RepositoryToClone = null;
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
+
+            view.RepositoryToClone = null;
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
         }
 
         [Test]
@@ -96,6 +163,33 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
+        public void SecondTImeRepositoryToCloneChangedAndValidTextNoChangeWithDestionationFolderOccuers()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "somedata";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+
+            view.RepositoryToClone = "new data";
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
+        }
+
+        [Test]
         public void SpecificyDestionationFolderWillUseRepositoryNameAsSubFolder()
         {
             string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SomeTestRepository");
@@ -121,6 +215,157 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.SetDestinationFolder(DestinationLocation);
 
             Assert.That(cloneView.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+        }
+
+        [Test]
+        public void WhenDestinationIsNotPopulatedTheCloneButtonIsNotShown()
+        {
+            CloneView view = SetUpTestForHideCloneButton();
+
+            view.RepositoryToClone = "some value";
+            view.DestinationFolder = null;
+
+            var presenter = new ClonePresenter(view);
+
+            view.RepositoryToClone = "some value";
+            view.DestinationFolder = "other value";
+
+            presenter.DestionFolderTextChanged();
+
+            view.RepositoryToClone = null;
+            view.DestinationFolder = null;
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.False);
+        }
+
+        [Test]
+        public void WhenCloneButtonIsVisibleItNotDisplayedAgain()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.ShowCloneButton()).Repeat.Once();
+
+            view.RepositoryToClone = null;
+            LastCall.PropertyBehavior();
+
+            view.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "some value";
+            view.DestinationFolder = "more value";
+            
+            var presenter = new ClonePresenter(view);
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.True);
+
+            view.RepositoryToClone = "changes value";
+            view.DestinationFolder = "other changes value";
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.True);
+        }
+
+        [Test]
+        public void CloneButtonIsOnlyHiddenOnce()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.ShowCloneButton()).Repeat.Once();
+            view.Expect(v => v.HideCloneButton()).Repeat.Once();
+
+            view.RepositoryToClone = null;
+            LastCall.PropertyBehavior();
+
+            view.DestinationFolder = null;
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = "some value";
+            view.DestinationFolder = "more value";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.True);
+
+            view.RepositoryToClone = null;
+            view.DestinationFolder = null;
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.False);
+
+            view.RepositoryToClone = null;
+            view.DestinationFolder = null;
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.False);
+        }
+
+        [Test]
+        public void WhenRepositoryAndDestinaitonArePopulatedCloneButtonIsShown()
+        {
+            CloneView view = SetUpTestForDisplayCloneButton();
+
+            view.RepositoryToClone = "some value";
+            view.DestinationFolder = "some value, can be same of different";
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.True);
+        }
+
+        [Test]
+        public void WhenRepositoryIsNotPopulatedTheCloneButtonIsNotShown()
+        {
+            CloneView view = SetUpTestForHideCloneButton();
+
+            var presenter = new ClonePresenter(view);
+
+            view.RepositoryToClone = "value";
+            view.DestinationFolder = "some value";
+
+            presenter.DestionFolderTextChanged();
+
+            view.RepositoryToClone = null;
+            view.DestinationFolder = "some value";
+
+            presenter.DestionFolderTextChanged();
+
+            Assert.That(presenter.IsCloneButtonShown, Is.False);
+        }
+
+        [Test]
+        public void WhenRespitoryToChangeIsNullAndAChangeEventWillNotDisplayDestination()
+        {
+            var view = Mocks.StrictMock<CloneView>();
+
+            view.Expect(v => v.HideDestinationFolder()).Repeat.Never();
+
+            view.RepositoryToClone = "ve";
+            LastCall.PropertyBehavior();
+
+            Mocks.ReplayAll();
+
+            view.RepositoryToClone = null;
+
+            var presenter = new ClonePresenter(view);
+
+            presenter.RepositoryToCloneChanged();
+
+            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
         }
 
         [Test]
@@ -167,136 +412,6 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             presenter.RepositoryToCloneChanged();
 
             Assert.That(presenter.DestinationFolderDisplayed, Is.False);
-        }
-
-        [Test]
-        public void SecondTImeRepositoryToCloneChangedAndValidTextNoChangeWithDestionationFolderOccuers()
-        {
-            var view = Mocks.StrictMock<CloneView>();
-
-            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
-
-            view.RepositoryToClone = "ve";
-            LastCall.PropertyBehavior();
-
-            Mocks.ReplayAll();
-
-            view.RepositoryToClone = "somedata";
-
-            var presenter = new ClonePresenter(view);
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
-
-            view.RepositoryToClone = "new data";
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
-        }
-
-        [Test]
-        public void HideDestionationFolderWillNotBeCalledTwiceWhenNoChange()
-        {
-            var view = Mocks.StrictMock<CloneView>();
-
-            view.Expect(v => v.HideDestinationFolder()).Repeat.Once();
-            view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
-
-            view.RepositoryToClone = "ve";
-            LastCall.PropertyBehavior();
-
-            Mocks.ReplayAll();
-
-            view.RepositoryToClone = "some data to get test set up";
-
-            var presenter = new ClonePresenter(view);
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.True);
-
-            view.RepositoryToClone = null;
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
-
-            view.RepositoryToClone = null;
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
-        }
-
-        [Test]
-        public void WhenRespitoryToChangeIsNullAndAChangeEventWillNotDisplayDestination()
-        {
-            var view = Mocks.StrictMock<CloneView>();
-
-            view.Expect(v => v.HideDestinationFolder()).Repeat.Never();
-
-            view.RepositoryToClone = "ve";
-            LastCall.PropertyBehavior();
-
-            Mocks.ReplayAll();
-
-            view.RepositoryToClone = null;
-
-            var presenter = new ClonePresenter(view);
-
-            presenter.RepositoryToCloneChanged();
-
-            Assert.That(presenter.DestinationFolderDisplayed, Is.False);
-        }
-
-        [Test]
-        public void WhenRepositoryAndDestinaitonArePopulatedCloneButtonIsShown()
-        {
-            CloneView view = Mocks.StrictMock<CloneView>();
-
-            view.Expect(v => v.ShowCloneButton());
-
-            view.RepositoryToClone = null;
-            LastCall.PropertyBehavior();
-
-            view.DestinationFolder = null;
-            LastCall.PropertyBehavior();
-
-            Mocks.ReplayAll();
-
-            view.RepositoryToClone = "some value";
-
-            ClonePresenter presenter = new ClonePresenter(view);
-
-            presenter.SetDestinationFolder("another value");
-
-            Assert.That(presenter.IsCloneButtonShown, Is.True);
-        }
-
-        [Test]
-        public void WhenRepositoryIsNotPopulatedTheCloneButtonIsNotShown()
-        {
-            CloneView view = Mocks.StrictMock<CloneView>();
-
-            view.Expect(v => v.HideCloneButton());
-
-            view.RepositoryToClone = null;
-            LastCall.PropertyBehavior();
-
-            view.DestinationFolder = null;
-            LastCall.PropertyBehavior();
-
-            Mocks.ReplayAll();
-
-            view.RepositoryToClone = null;
-
-            ClonePresenter presenter = new ClonePresenter(view);
-
-            presenter.SetDestinationFolder("another value");
-
-            Assert.That(presenter.IsCloneButtonShown, Is.False);
         }
 
         [Test]

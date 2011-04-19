@@ -110,7 +110,7 @@
                 Margin="5"
                 x:Name="txtDestination"
                 DockPanel.Dock="Left"
-                VerticalAlignment="Center" LostFocus="DestinationLostFocus">
+                VerticalAlignment="Center" LostFocus="DestinationLostFocus" TextChanged="DestinationTextChanged">
             </TextBox>
         </DockPanel>
         <Button x:Name="btnClone" Content="Clone" Grid.Row="2" Width="75" Margin="15" ToolTip="Will start the clone process" HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0" />

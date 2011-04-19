@@ -1,4 +1,5 @@
-﻿using FatCatGit.Gui.Presenter.Views;
+﻿using System;
+using FatCatGit.Gui.Presenter.Views;
 
 namespace FatCatGit.Gui.Presenter.Presenters
 {
@@ -32,19 +33,25 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
             DetermineDestinationFolder(destinationFolderLocation);
 
-            HandleCloneButtronDisplay();
+            
         }
 
-        private void HandleCloneButtronDisplay()
+        private void HandleCloneButtonDisplay()
         {
-            if (IsRepositryAndDestionationPopulated())
+            if (ShouldCloneButtonBeDisplayed())
             {
                 ShowCloneButton();
             }
-            else
+
+            if (!IsRepositryAndDestionationPopulated() && IsCloneButtonShown)
             {
                 HideCloneButton();
             }
+        }
+
+        private bool ShouldCloneButtonBeDisplayed()
+        {
+            return IsRepositryAndDestionationPopulated() && !IsCloneButtonShown;
         }
 
         private void HideCloneButton()
@@ -125,6 +132,11 @@ namespace FatCatGit.Gui.Presenter.Presenters
         private bool ShouldDestinationFolderBeDisplayed()
         {
             return !string.IsNullOrEmpty(View.RepositoryToClone) && !DestinationFolderDisplayed;
+        }
+
+        public void DestionFolderTextChanged()
+        {
+            HandleCloneButtonDisplay();
         }
     }
 }
