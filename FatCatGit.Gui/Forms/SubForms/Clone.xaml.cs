@@ -85,12 +85,16 @@ namespace FatCatGit.Gui.Forms.SubForms
 
         public void ShowCloneButton()
         {
-            throw new NotImplementedException();
+            var anmination = (Storyboard)Resources["ShowCloneButton"];
+
+            anmination.Begin();
         }
 
         public void HideCloneButton()
         {
-            throw new NotImplementedException();
+            var anmination = (Storyboard)Resources["HideCloneButton"];
+
+            anmination.Begin();
         }
 
         private void DestinationLostFocus(object sender, RoutedEventArgs e)

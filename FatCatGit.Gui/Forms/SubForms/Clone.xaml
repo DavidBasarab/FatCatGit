@@ -37,6 +37,17 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="-19.5"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
+		<Storyboard x:Key="ShowCloneButton">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClone">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="HideCloneButton">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClone">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
 	</src:BaseSubForm.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -45,6 +56,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+			<RowDefinition Height="70" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <DockPanel
@@ -55,6 +67,7 @@
                 DockPanel.Dock="Left"
                 Margin="5"
                 VerticalAlignment="Center"
+                Width="100"
                 >
                 Repository
             </Label>
@@ -82,6 +95,7 @@
                 DockPanel.Dock="Left"
                 Margin="5"
                 VerticalAlignment="Center"
+                Width="100"
                 >
                 Destination
             </Label>
@@ -97,8 +111,9 @@
                 x:Name="txtDestination"
                 DockPanel.Dock="Left"
                 VerticalAlignment="Center" LostFocus="DestinationLostFocus">
-
             </TextBox>
         </DockPanel>
+        <Button x:Name="btnClone" Content="Clone" Grid.Row="2" Width="75" Margin="15" ToolTip="Will start the clone process" HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0" />
+		
     </Grid>
 </src:BaseSubForm>
