@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\ThirdParty\Ninject\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -64,6 +67,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Forms\SubForms\BaseSubForm.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -105,6 +109,10 @@
     <ProjectReference Include="..\FatCatGit.Gui.Presenter\FatCatGit.Gui.Presenter.csproj">
       <Project>{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}</Project>
       <Name>FatCatGit.Gui.Presenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.Modules\FatCatGit.Modules.csproj">
+      <Project>{8ABBC059-9113-4A82-AB17-06E82EFC1B37}</Project>
+      <Name>FatCatGit.Modules</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

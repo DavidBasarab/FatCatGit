@@ -26,5 +26,10 @@ namespace FatCatGit.Gui
 
             cloneForm.ShowDialog();
         }
+
+        private void FormLoaded(object sender, RoutedEventArgs e)
+        {
+            Global.LoadModules();
+        }
     }
 }
