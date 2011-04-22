@@ -1,60 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.IO;
+using System.Threading;
+using FatCatGit.CommandLineRunner;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace FatCatGit.UnitTests.GitCommands
 {
     [TestFixture]
     [Category("Git Commands")]
-    [Ignore("Need to figure out how to make faster")]
     public class GitCloneCommandTests : BaseCommandTests
     {
-        [TearDown]
-        public new void TearDown()
-        {
-            DeleteDestinationDirectory();
-
-            base.TearDown();
-        }
-
         public string RepositoryDestination
         {
-            get { return ConfigurationManager.AppSettings["GitTestCloneLocation"]; }
-        }
-
-        public void DeleteDestinationDirectory()
-        {
-            var directoryToDelete = new DirectoryInfo(RepositoryDestination);
-
-            DeleteDirectory(directoryToDelete);
-        }
-
-        private static void DeleteDirectory(DirectoryInfo directoryToDelete)
-        {
-            if (!directoryToDelete.Exists)
-            {
-                return;
-            }
-
-            FileInfo[] files = directoryToDelete.GetFiles();
-            DirectoryInfo[] dirs = directoryToDelete.GetDirectories();
-
-            foreach (FileInfo file in files)
-            {
-                File.SetAttributes(file.FullName, FileAttributes.Normal);
-                file.Delete();
-            }
-
-            foreach (DirectoryInfo dir in dirs)
-            {
-                DeleteDirectory(dir);
-            }
-
-            directoryToDelete.Delete(true);
+            get { return @"C:\SomeFakeUnitTestDirectory\MoreUnitTestFakey"; }
         }
 
         [Test]
@@ -62,10 +23,20 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
+            Command command = MockCommandProperties();
+
+            Runner runner = MockRunner();
+
+            Mocks.ReplayAll();
+
+            runner.Output = string.Format("Cloning into {0}...", RepositoryDestination);
+
             var clone = new Clone(GitEmptyTestProjectLocation)
                             {
                                 RepositoryToClone = GitEmptyTestProjectLocation,
-                                Destination = RepositoryDestination
+                                Destination = RepositoryDestination,
+                                Runner = runner,
+                                CommandArguments = command
                             };
 
             IAsyncResult result = clone.Run();
@@ -73,6 +44,10 @@ namespace FatCatGit.UnitTests.GitCommands
             result.AsyncWaitHandle.WaitOne();
 
             Assert.That(clone.Output.Contains(string.Format("Cloning into {0}...", RepositoryDestination)));
+            Assert.That(runner.Command, Is.EqualTo(command));
+            Assert.That(command.CommandFullLocation, Is.EqualTo(GitInstallLocation));
+            Assert.That(command.Arguments, Is.EqualTo("clone -v --verbose --progress \"C:\\Test\\EmptyRepo1\" \"C:\\SomeFakeUnitTestDirectory\\MoreUnitTestFakey\""));
+            Assert.That(command.WorkingDirectory, Is.EqualTo(GitEmptyTestProjectLocation));
         }
 
         [Test]
@@ -80,10 +55,18 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
+            Command command = MockCommandProperties();
+
+            Runner runner = MockRunner();
+
+            Mocks.ReplayAll();
+
             var clone = new Clone(GitTestProjectLocation)
                             {
                                 RepositoryToClone = GitTestProjectLocation,
-                                Destination = RepositoryDestination
+                                Destination = RepositoryDestination,
+                                Runner = runner,
+                                CommandArguments = command
                             };
 
             string progressMessage = string.Empty;
@@ -94,21 +77,28 @@ namespace FatCatGit.UnitTests.GitCommands
                                       if (!messageRecieved)
                                       {
                                           progressMessage = e.Message;
-                                          messageRecieved = true; 
+                                          messageRecieved = true;
                                       }
                                   };
 
             clone.Run();
 
+            var eventArgs = new OutputReceivedArgs
+                                {
+                                    Data = "This is a progress message"
+                                };
+
+            runner.Raise(v => v.ErrorOutputReceived += null, eventArgs);
+
             Stopwatch watch = Stopwatch.StartNew();
 
             while (!messageRecieved && watch.Elapsed < TimeSpan.FromMilliseconds(500))
             {
-                System.Threading.Thread.Sleep(1);
+                Thread.Sleep(1);
             }
 
             Assert.That(messageRecieved);
-            Assert.That(progressMessage.StartsWith("Checking out files: "));
+            Assert.That(progressMessage.StartsWith("This is a progress message"));
         }
     }
 }

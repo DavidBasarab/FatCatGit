@@ -30,7 +30,7 @@ namespace FatCatGit.CommandLineRunner
         public string Output { get; set; }
         public string ErrorOutput { get; set; }
 
-        public event Action<DataReceivedEventArgs> OutputReceived;
+        public event OutputReceived StandardOutputReceived;
 
         public void Execute()
         {
@@ -46,7 +46,7 @@ namespace FatCatGit.CommandLineRunner
             return Result;
         }
 
-        public event Action<DataReceivedEventArgs> ErrorOutputReceived;
+        public event OutputReceived ErrorOutputReceived;
 
         private void ExecuteProcess()
         {
@@ -91,7 +91,9 @@ namespace FatCatGit.CommandLineRunner
         {
             if (ErrorOutputReceived != null)
             {
-                ErrorOutputReceived(e);
+                var args = new OutputReceivedArgs(e);
+
+                ErrorOutputReceived(args);
             }
         }
 
@@ -104,9 +106,11 @@ namespace FatCatGit.CommandLineRunner
 
         private void TriggerOutputReceivedEvent(DataReceivedEventArgs e)
         {
-            if (OutputReceived != null)
+            if (StandardOutputReceived != null)
             {
-                OutputReceived(e);
+                var args = new OutputReceivedArgs(e);
+
+                StandardOutputReceived(args);
             }
         }
 

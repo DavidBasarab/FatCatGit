@@ -82,7 +82,7 @@ namespace FatCatGit.GitCommands
             Runner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
         }
 
-        private void ErrorOutputReceivedFromRunner(DataReceivedEventArgs obj)
+        private void ErrorOutputReceivedFromRunner(OutputReceivedArgs obj)
         {
             if (Progress != null)
             {

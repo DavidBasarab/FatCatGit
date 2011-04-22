@@ -53,7 +53,7 @@ namespace FatCatGit.UnitTests.CommandLineRunner
 
             var dataCollection = new List<string>();
 
-            runner.OutputReceived += e => dataCollection.Add(e.Data);
+            runner.StandardOutputReceived += e => dataCollection.Add(e.Data);
 
             runner.Execute();
 

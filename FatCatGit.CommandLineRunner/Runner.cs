@@ -3,18 +3,20 @@ using System.Diagnostics;
 
 namespace FatCatGit.CommandLineRunner
 {
+    public delegate void OutputReceived(OutputReceivedArgs receivedArgs);
+
     public interface Runner
     {
         Command Command { get; set; }
         string Output { get; set; }
         string ErrorOutput { get; set; }
         
-        event Action<DataReceivedEventArgs> OutputReceived;
+        event OutputReceived StandardOutputReceived;
         
         void Execute();
         
         IAsyncResult BeginExecute();
-        
-        event Action<DataReceivedEventArgs> ErrorOutputReceived;
+
+        event OutputReceived ErrorOutputReceived;
     }
 }

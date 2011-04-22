@@ -40,13 +40,13 @@ namespace CommandLineUnitTester
 
                     Console.WriteLine("Going to sleep for 100 ms");
 
-                    System.Threading.Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(10);
 
                     Console.WriteLine("Done sleeping for 100 ms");
 
                     Console.WriteLine("Going to sleep for 2500 ms");
 
-                    System.Threading.Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(10);
 
                     Console.WriteLine("Done sleeping for 2500 ms");
                 }
