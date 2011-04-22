@@ -5,21 +5,21 @@ namespace FatCatGit.CommandLineRunner
 {
     public class ConsoleRunner : Runner
     {
-        public ConsoleRunner(ConsoleCommand consoleCommand)
+        public ConsoleRunner(Command command)
         {
-            ConsoleCommand = consoleCommand;
+            Command = command;
             Output = string.Empty;
             ErrorOutput = string.Empty;
         }
 
-        public ConsoleCommand ConsoleCommand { get; set; }
-        public string Output { get; set; }
-
         private ProcessStartInfo StartInfo { get; set; }
         private Process Process { get; set; }
 
-        public string ErrorOutput { get; set; }
         private CommandAsyncResult Result { get; set; }
+        public Command Command { get; set; }
+
+        public string Output { get; set; }
+        public string ErrorOutput { get; set; }
 
         public event Action<DataReceivedEventArgs> OutputReceived;
 
@@ -29,6 +29,15 @@ namespace FatCatGit.CommandLineRunner
 
             result.AsyncWaitHandle.WaitOne();
         }
+
+        public IAsyncResult BeginExecute()
+        {
+            StartAsyncExecute();
+
+            return Result;
+        }
+
+        public event Action<DataReceivedEventArgs> ErrorOutputReceived;
 
         private void ExecuteProcess()
         {
@@ -102,7 +111,7 @@ namespace FatCatGit.CommandLineRunner
 
         private void CreateProcessStartInfo()
         {
-            StartInfo = new ProcessStartInfo(ConsoleCommand.CommandFullLocation)
+            StartInfo = new ProcessStartInfo(Command.CommandFullLocation)
                             {
                                 RedirectStandardOutput = true,
                                 RedirectStandardInput = true,
@@ -110,16 +119,9 @@ namespace FatCatGit.CommandLineRunner
                                 WindowStyle = ProcessWindowStyle.Hidden,
                                 CreateNoWindow = true,
                                 UseShellExecute = false,
-                                Arguments = ConsoleCommand.Arguments,
-                                WorkingDirectory = ConsoleCommand.WorkingDirectory
+                                Arguments = Command.Arguments,
+                                WorkingDirectory = Command.WorkingDirectory
                             };
-        }
-
-        public IAsyncResult BeginExecute()
-        {
-            StartAsyncExecute();
-
-            return Result;
         }
 
         private void StartAsyncExecute()
@@ -159,7 +161,5 @@ namespace FatCatGit.CommandLineRunner
                 Result.ProcessComplete(null, string.Format("{0}|{1}", ex.Message, ex.StackTrace));
             }
         }
-
-        public event Action<DataReceivedEventArgs> ErrorOutputReceived;
     }
 }

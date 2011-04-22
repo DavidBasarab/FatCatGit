@@ -21,7 +21,7 @@ namespace CommandLineUnitTester
 
             Console.Error.WriteLine("This is on the Error Stream");
 
-            if (args != null && args.Length > 0)
+            if (args.Length > 0)
             {
                 if (args[0].ToLower() == "random")
                 {
@@ -40,13 +40,13 @@ namespace CommandLineUnitTester
 
                     Console.WriteLine("Going to sleep for 100 ms");
 
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(50);
 
                     Console.WriteLine("Done sleeping for 100 ms");
 
                     Console.WriteLine("Going to sleep for 2500 ms");
 
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(50);
 
                     Console.WriteLine("Done sleeping for 2500 ms");
                 }
