@@ -3,7 +3,7 @@ using FatCatGit.GitCommands.Args;
 
 namespace FatCatGit.GitCommands
 {
-    public class Clone : Command
+    public class Clone : BaseCommand
     {
         // git.exe clone -v --progress "C:/Test/Repo1" "C:/Test/Test2"
 

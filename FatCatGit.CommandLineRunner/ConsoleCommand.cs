@@ -2,11 +2,16 @@
 {
     public class ConsoleCommand : Command
     {
-        public ConsoleCommand(string commandFullLocation, string arguments = null, string workingDirectory = null)
+        //public ConsoleCommand(string commandFullLocation, string arguments = null, string workingDirectory = null)
+        //{
+        //    CommandFullLocation = commandFullLocation;
+        //    Arguments = arguments;
+        //    WorkingDirectory = workingDirectory;
+        //}
+
+        public ConsoleCommand()
         {
-            CommandFullLocation = commandFullLocation;
-            Arguments = arguments;
-            WorkingDirectory = workingDirectory;
+            
         }
 
         public string WorkingDirectory { get; set; }

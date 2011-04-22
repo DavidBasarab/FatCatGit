@@ -46,6 +46,20 @@
     <Compile Include="GitCommandModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FatCatGit.CommandLineRunner\FatCatGit.CommandLineRunner.csproj">
+      <Project>{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}</Project>
+      <Name>FatCatGit.CommandLineRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.Configuration\FatCatGit.Configuration.csproj">
+      <Project>{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}</Project>
+      <Name>FatCatGit.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.GitCommands\FatCatGit.GitCommands.csproj">
+      <Project>{1B61554E-A406-41EC-9084-A0918F4EBEFB}</Project>
+      <Name>FatCatGit.GitCommands</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

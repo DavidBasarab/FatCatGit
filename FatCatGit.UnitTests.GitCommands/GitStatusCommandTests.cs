@@ -1,6 +1,8 @@
 ﻿using System;
+using FatCatGit.CommandLineRunner;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace FatCatGit.UnitTests.GitCommands
 {
@@ -13,15 +15,28 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
-            var status = new Status(GitTestProjectLocation);
+            var command = MockCommandProperties();
 
-            IAsyncResult result = status.Run();
+            var runner = MockRunner();
 
-            result.AsyncWaitHandle.WaitOne();
+            Mocks.ReplayAll();
 
-            Console.WriteLine(status.ErrorOutput);
+            runner.Output = "# On branch ";
+
+            var status = new Status(GitTestProjectLocation)
+                             {
+                                 CommandArguments = command,
+                                 Runner = runner
+                             };
+
+            status.Run();
 
             Assert.That(status.Output, Contains.Substring("# On branch "));
+            Assert.That(runner.Command, Is.EqualTo(command));
+            Assert.That(command.CommandFullLocation, Is.EqualTo(GitInstallLocation));
+            Assert.That(command.Arguments, Is.EqualTo("status"));
+            Assert.That(command.WorkingDirectory, Is.EqualTo(GitTestProjectLocation));
         }
+
     }
 }

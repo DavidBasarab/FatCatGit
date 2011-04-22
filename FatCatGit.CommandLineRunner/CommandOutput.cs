@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FatCatGit.CommandLineRunner
 {
-    public class CommandOutput
+    public class CommandOutput : Output
     {
         public string Output { get; set; }
 

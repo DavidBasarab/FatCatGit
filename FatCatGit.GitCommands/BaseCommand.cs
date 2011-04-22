@@ -3,29 +3,31 @@ using System.Diagnostics;
 using FatCatGit.CommandLineRunner;
 using FatCatGit.Configuration;
 using FatCatGit.GitCommands.Args;
+using Ninject;
 
 namespace FatCatGit.GitCommands
 {
-    public class Command
+    public class BaseCommand
     {
-        private CommandLineRunner.ConsoleCommand _consoleCommand;
         private IAsyncResult _executeCommandResult;
 
-        public Command(string projectLocation)
+        public BaseCommand(string projectLocation)
         {
             ProjectLocation = projectLocation;
         }
 
         public string ProjectLocation { get; set; }
 
-        private ConsoleRunner ConsoleRunner { get; set; }
+        [Inject]
+        public Runner Runner { get; set; }
+
+        [Inject]
+        public Command CommandArguments { get; set; }
 
         protected virtual string GitCommandString
         {
             get { return string.Empty; }
         }
-
-        public event GitCommandProgressEvent Progress;
 
         public string Output { get; set; }
         public string ErrorOutput { get; set; }
@@ -34,6 +36,8 @@ namespace FatCatGit.GitCommands
         {
             get { return ConfigurationSettings.Global.GitExecutableLocation; }
         }
+
+        public event GitCommandProgressEvent Progress;
 
         public IAsyncResult Run()
         {
@@ -48,7 +52,7 @@ namespace FatCatGit.GitCommands
 
             CreateRunner();
 
-            _executeCommandResult = ConsoleRunner.BeginExecute();
+            _executeCommandResult = Runner.BeginExecute();
 
             StartSaveOutputProcessThread();
         }
@@ -62,29 +66,30 @@ namespace FatCatGit.GitCommands
                                                SaveOutput();
                                            };
 
-
             saveOutputProcess();
         }
 
         private void SaveOutput()
         {
-            Output = ConsoleRunner.Output;
-            ErrorOutput = ConsoleRunner.ErrorOutput;
+            Output = Runner.Output;
+            ErrorOutput = Runner.ErrorOutput;
         }
 
         private void CreateRunner()
         {
-            ConsoleRunner = new ConsoleRunner(_consoleCommand);
+            Runner.Command = CommandArguments;
 
-            ConsoleRunner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
+            Runner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
         }
 
         private void ErrorOutputReceivedFromRunner(DataReceivedEventArgs obj)
         {
             if (Progress != null)
             {
-                var args = new GitCommandProgressEventArgs();
-                args.Message = obj.Data;
+                var args = new GitCommandProgressEventArgs
+                               {
+                                   Message = obj.Data
+                               };
 
                 Progress(this, args);
             }
@@ -92,7 +97,9 @@ namespace FatCatGit.GitCommands
 
         private void CreateRunnerCommand()
         {
-            _consoleCommand = new CommandLineRunner.ConsoleCommand(GitExecutableLocation, workingDirectory: ProjectLocation, arguments: GitCommandString);
+            CommandArguments.Arguments = GitCommandString;
+            CommandArguments.CommandFullLocation = GitExecutableLocation;
+            CommandArguments.WorkingDirectory = ProjectLocation;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FatCatGit.GitCommands
 {
-    public class Status : Command
+    public class Status : BaseCommand
     {
         public Status(string projectLocation)
             :base(projectLocation)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Ninject;
 
 namespace FatCatGit.CommandLineRunner
 {
@@ -12,10 +13,18 @@ namespace FatCatGit.CommandLineRunner
             ErrorOutput = string.Empty;
         }
 
+        public ConsoleRunner()
+        {
+            Output = string.Empty;
+            ErrorOutput = string.Empty;
+        }
+
         private ProcessStartInfo StartInfo { get; set; }
         private Process Process { get; set; }
 
         private CommandAsyncResult Result { get; set; }
+
+        [Inject]
         public Command Command { get; set; }
 
         public string Output { get; set; }
