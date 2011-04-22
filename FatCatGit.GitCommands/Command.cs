@@ -8,7 +8,7 @@ namespace FatCatGit.GitCommands
 {
     public class Command
     {
-        private CommandLineRunner.Command _command;
+        private CommandLineRunner.ConsoleCommand _consoleCommand;
         private IAsyncResult _executeCommandResult;
 
         public Command(string projectLocation)
@@ -18,7 +18,7 @@ namespace FatCatGit.GitCommands
 
         public string ProjectLocation { get; set; }
 
-        private Runner Runner { get; set; }
+        private ConsoleRunner ConsoleRunner { get; set; }
 
         protected virtual string GitCommandString
         {
@@ -48,7 +48,7 @@ namespace FatCatGit.GitCommands
 
             CreateRunner();
 
-            _executeCommandResult = Runner.BeginExecute();
+            _executeCommandResult = ConsoleRunner.BeginExecute();
 
             StartSaveOutputProcessThread();
         }
@@ -68,15 +68,15 @@ namespace FatCatGit.GitCommands
 
         private void SaveOutput()
         {
-            Output = Runner.Output;
-            ErrorOutput = Runner.ErrorOutput;
+            Output = ConsoleRunner.Output;
+            ErrorOutput = ConsoleRunner.ErrorOutput;
         }
 
         private void CreateRunner()
         {
-            Runner = new Runner(_command);
+            ConsoleRunner = new ConsoleRunner(_consoleCommand);
 
-            Runner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
+            ConsoleRunner.ErrorOutputReceived += ErrorOutputReceivedFromRunner;
         }
 
         private void ErrorOutputReceivedFromRunner(DataReceivedEventArgs obj)
@@ -92,7 +92,7 @@ namespace FatCatGit.GitCommands
 
         private void CreateRunnerCommand()
         {
-            _command = new CommandLineRunner.Command(GitExecutableLocation, workingDirectory: ProjectLocation, arguments: GitCommandString);
+            _consoleCommand = new CommandLineRunner.ConsoleCommand(GitExecutableLocation, workingDirectory: ProjectLocation, arguments: GitCommandString);
         }
     }
 }

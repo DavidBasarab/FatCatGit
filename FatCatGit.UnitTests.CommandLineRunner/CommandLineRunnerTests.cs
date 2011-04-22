@@ -11,9 +11,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandWillReturnOutputAsString()
         {
-            var command = new Command("CommandLineUnitTester");
+            var command = new ConsoleCommand("CommandLineUnitTester");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             runner.Execute();
 
@@ -23,9 +23,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandWillRunInGivenDirectory()
         {
-            var command = new Command("CommandLineUnitTester", "We read you red 5", @"C:\Program Files");
+            var command = new ConsoleCommand("CommandLineUnitTester", "We read you red 5", @"C:\Program Files");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             runner.Execute();
 
@@ -35,9 +35,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandWithArguments()
         {
-            var command = new Command("CommandLineUnitTester", "We read you red 5");
+            var command = new ConsoleCommand("CommandLineUnitTester", "We read you red 5");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             runner.Execute();
 
@@ -47,9 +47,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandRunnerWillHaveErrorOutput()
         {
-            var command = new Command("CommandLineUnitTester", "We read you red 5");
+            var command = new ConsoleCommand("CommandLineUnitTester", "We read you red 5");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             runner.Execute();
 
@@ -59,9 +59,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test, MaxTime(125)]
         public void CommandLineRunnerWillRunOperationsAsync()
         {
-            var command = new Command("CommandLineUnitTester", "wait");
+            var command = new ConsoleCommand("CommandLineUnitTester", "wait");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             runner.BeginExecute();
         }
@@ -69,9 +69,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandLineRunnerWillTriggerEventWhenOutputRecieved()
         {
-            var command = new Command("CommandLineUnitTester");
+            var command = new ConsoleCommand("CommandLineUnitTester");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             var dataCollection = new List<string>();
 
@@ -85,9 +85,9 @@ namespace FatCatGit.UnitTests.CommandLineRunner
         [Test]
         public void CommandLineRunnerWillTriggerEventWhenErrorOutputRecieved()
         {
-            var command = new Command("CommandLineUnitTester");
+            var command = new ConsoleCommand("CommandLineUnitTester");
 
-            var runner = new Runner(command);
+            var runner = new ConsoleRunner(command);
 
             var dataCollection = new List<string>();
 

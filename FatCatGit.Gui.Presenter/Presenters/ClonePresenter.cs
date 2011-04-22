@@ -32,8 +32,6 @@ namespace FatCatGit.Gui.Presenter.Presenters
             }
 
             DetermineDestinationFolder(destinationFolderLocation);
-
-            
         }
 
         private void HandleCloneButtonDisplay()

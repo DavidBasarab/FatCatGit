@@ -46,7 +46,7 @@ namespace CommandLineUnitTester
 
                     Console.WriteLine("Going to sleep for 2500 ms");
 
-                    System.Threading.Thread.Sleep(2500);
+                    System.Threading.Thread.Sleep(100);
 
                     Console.WriteLine("Done sleeping for 2500 ms");
                 }
