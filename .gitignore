@@ -27,3 +27,6 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+FatCatGit.UnitTests.CommandLineRunner/UnitTestResults.xml
+FatCatGit.UnitTests.GitCommands/UnitTestResults.xml
+FatCatGit.UnitTests.Gui.Presenter/UnitTestResults.xml
