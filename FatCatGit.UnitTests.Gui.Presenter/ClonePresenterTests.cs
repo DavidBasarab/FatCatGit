@@ -1,8 +1,12 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Threading;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
 using NUnit.Framework;
 using Rhino.Mocks;
+using RhinoMocksExtensions;
+using FatCatGit.GitCommands.Interfaces;
 
 namespace FatCatGit.UnitTests.Gui.Presenter
 {
@@ -94,6 +98,49 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
+        public void CloneWillCloneTheRepositoryToTheDestination()
+        {
+            var cloneView = Mocks.StrictMock<CloneView>();
+
+            cloneView.SetPropertyAsBehavior(v => v.RepositoryToClone);
+            cloneView.SetPropertyAsBehavior(v => v.DestinationFolder);
+
+            var clone = Mocks.StrictMock<Clone>();
+
+            clone.SetPropertyAsBehavior(v => v.RepositoryToClone);
+            clone.SetPropertyAsBehavior(v => v.Destination);
+
+            var result = new TestAsyncResults();
+
+            clone.Expect(v => v.Run()).Return(result);
+
+            Mocks.ReplayAll();
+
+            const string repoToClone = @"C:\UnitTestRepo\ToClone";
+            const string destinationFolder = @"C:\NewClone\Location";
+
+            cloneView.RepositoryToClone = repoToClone;
+            cloneView.DestinationFolder = destinationFolder;
+
+            var presenter = new ClonePresenter(cloneView)
+                                {
+                                    Clone = clone
+                                };
+
+            bool eventTriggered = false;
+
+            Action<string> cloneComplete = o => eventTriggered = true;
+
+            presenter.CloneComplete += cloneComplete;
+
+            presenter.PerformClone();
+
+            Assert.That(clone.RepositoryToClone, Is.EqualTo(repoToClone));
+            Assert.That(clone.Destination, Is.EqualTo(destinationFolder));
+            Assert.That(eventTriggered);
+        }
+
+        [Test]
         public void HideDestionationFolderWillNotBeCalledTwiceWhenNoChange()
         {
             var view = Mocks.StrictMock<CloneView>();
@@ -101,7 +148,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             view.Expect(v => v.HideDestinationFolder()).Repeat.Once();
             view.Expect(v => v.DisplayDestinationFolder()).Repeat.Once();
 
-            view.RepositoryToClone = "ve";
+            view.RepositoryToClone = "does_not_matter";
             LastCall.PropertyBehavior();
 
             Mocks.ReplayAll();

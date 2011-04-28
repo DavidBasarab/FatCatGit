@@ -3,6 +3,7 @@ using FatCatGit.CommandLineRunner;
 using FatCatGit.Configuration;
 using NUnit.Framework;
 using Rhino.Mocks;
+using RhinoMocksExtensions;
 using ConfigurationSettings = FatCatGit.Configuration.ConfigurationSettings;
 
 namespace FatCatGit.UnitTests.GitCommands

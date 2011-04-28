@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseCommandTests.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="GitCloneCommandTests.cs" />
     <Compile Include="GitStatusCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +73,10 @@
     <ProjectReference Include="..\FatCatGit.Modules\FatCatGit.Modules.csproj">
       <Project>{8ABBC059-9113-4A82-AB17-06E82EFC1B37}</Project>
       <Name>FatCatGit.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RhinoMocksExtensions\RhinoMocksExtensions.csproj">
+      <Project>{E686EEB1-3B5C-43DA-A38B-2B9AC270830D}</Project>
+      <Name>RhinoMocksExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

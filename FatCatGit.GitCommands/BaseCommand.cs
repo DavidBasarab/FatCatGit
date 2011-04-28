@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using FatCatGit.CommandLineRunner;
 using FatCatGit.Configuration;
 using FatCatGit.GitCommands.Args;
@@ -14,6 +13,11 @@ namespace FatCatGit.GitCommands
         public BaseCommand(string projectLocation)
         {
             ProjectLocation = projectLocation;
+        }
+
+        public BaseCommand()
+        {
+            
         }
 
         public string ProjectLocation { get; set; }

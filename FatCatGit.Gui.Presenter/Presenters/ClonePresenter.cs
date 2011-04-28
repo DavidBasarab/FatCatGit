@@ -1,5 +1,8 @@
 ﻿using System;
+using FatCatGit.CommandLineRunner;
+using FatCatGit.GitCommands.Interfaces;
 using FatCatGit.Gui.Presenter.Views;
+using Ninject;
 
 namespace FatCatGit.Gui.Presenter.Presenters
 {
@@ -23,6 +26,11 @@ namespace FatCatGit.Gui.Presenter.Presenters
         public bool DestinationFolderDisplayed { get; private set; }
 
         public bool IsCloneButtonShown { get; set; }
+
+        public event Action<string> CloneComplete;
+
+        [Inject]
+        public Clone Clone { get; set; }
 
         public void SetDestinationFolder(string destinationFolderLocation)
         {
@@ -135,6 +143,28 @@ namespace FatCatGit.Gui.Presenter.Presenters
         public void DestionFolderTextChanged()
         {
             HandleCloneButtonDisplay();
+        }
+
+        public void PerformClone()
+        {
+            Clone.Destination = View.DestinationFolder;
+            Clone.RepositoryToClone = View.RepositoryToClone;
+
+            var result = Clone.Run();
+
+            Action completeProcess = () =>
+                                         {
+                                             result.AsyncWaitHandle.WaitOne();
+
+                                             if (CloneComplete != null)
+                                             {
+                                                 var output = (Output) result.AsyncState;
+
+                                                 CloneComplete(output == null ? string.Empty : output.Output);
+                                             }
+                                         };
+
+            completeProcess.BeginInvoke(null, null);
         }
     }
 }
