@@ -8,8 +8,8 @@ namespace FatCatGit.GitCommands.Interfaces
         string RepositoryToClone { get; set; }
         string Destination { get; set; }
         string ProjectLocation { get; set; }
-        string Output { get;  }
-        string ErrorOutput { get; }
+        string Output { get; set; }
+        string ErrorOutput { get; set; }
 
         event GitCommandProgressEvent Progress;
         

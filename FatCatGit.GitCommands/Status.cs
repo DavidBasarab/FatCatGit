@@ -7,12 +7,6 @@ namespace FatCatGit.GitCommands
 {
     public class Status : BaseCommand
     {
-        public Status(string projectLocation)
-            :base(projectLocation)
-        {
-            
-        }
-
         protected override string GitCommandString
         {
             get { return "status"; }

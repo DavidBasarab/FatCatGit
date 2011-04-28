@@ -198,6 +198,7 @@ namespace FatCatGit.Gui.Presenter.Presenters
         {
             Clone.Destination = View.DestinationFolder;
             Clone.RepositoryToClone = View.RepositoryToClone;
+            Clone.ProjectLocation = View.RepositoryToClone;
         }
     }
 }

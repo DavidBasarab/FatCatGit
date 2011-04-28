@@ -1,4 +1,6 @@
 ﻿using FatCatGit.CommandLineRunner;
+using FatCatGit.GitCommands;
+using FatCatGit.GitCommands.Interfaces;
 using Ninject;
 
 namespace FatCatGit.Modules
@@ -9,6 +11,7 @@ namespace FatCatGit.Modules
         {
             Bind<Runner>().To<ConsoleRunner>();
             Bind<Command>().To<ConsoleCommand>();
+            Bind<Clone>().To<CloneCommand>();
         }
     }
 }

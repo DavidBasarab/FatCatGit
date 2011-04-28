@@ -6,15 +6,6 @@ namespace FatCatGit.GitCommands
     {
         // git.exe clone -v --progress "C:/Test/Repo1" "C:/Test/Test2"
 
-        public CloneCommand(string projectLocation) : base(projectLocation)
-        {
-        }
-
-        public CloneCommand()
-        {
-            
-        }
-
         public string RepositoryToClone { get; set; }
 
         public string Destination { get; set; }

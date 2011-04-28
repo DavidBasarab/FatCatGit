@@ -135,6 +135,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
 
             clone.SetPropertyAsBehavior(v => v.RepositoryToClone);
             clone.SetPropertyAsBehavior(v => v.Destination);
+            clone.SetPropertyAsBehavior(v => v.ProjectLocation);
 
             var result = new TestAsyncResults
                              {
@@ -176,6 +177,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             Assert.That(clone.Destination, Is.EqualTo(destinationFolder));
             Assert.That(eventTriggered);
             Assert.That(output, Is.EqualTo("Clone completed successfully"));
+            Assert.That(clone.ProjectLocation, Is.EqualTo(repoToClone));
         }
 
         [Test]
@@ -191,6 +193,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
 
             clone.SetPropertyAsBehavior(v => v.RepositoryToClone);
             clone.SetPropertyAsBehavior(v => v.Destination);
+            
 
             clone.Expect(v => v.Run()).Repeat.Never();
 

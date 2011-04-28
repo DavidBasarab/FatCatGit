@@ -31,8 +31,9 @@ namespace FatCatGit.UnitTests.GitCommands
 
             runner.Output = string.Format("Cloning into {0}...", RepositoryDestination);
 
-            var clone = new CloneCommand(GitEmptyTestProjectLocation)
+            var clone = new CloneCommand()
                             {
+                                ProjectLocation = GitEmptyTestProjectLocation,
                                 RepositoryToClone = GitEmptyTestProjectLocation,
                                 Destination = RepositoryDestination,
                                 Runner = runner,
@@ -61,8 +62,9 @@ namespace FatCatGit.UnitTests.GitCommands
 
             Mocks.ReplayAll();
 
-            var clone = new CloneCommand(GitTestProjectLocation)
+            var clone = new CloneCommand()
                             {
+                                ProjectLocation = GitTestProjectLocation,
                                 RepositoryToClone = GitTestProjectLocation,
                                 Destination = RepositoryDestination,
                                 Runner = runner,

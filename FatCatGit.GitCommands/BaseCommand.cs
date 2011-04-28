@@ -10,16 +10,6 @@ namespace FatCatGit.GitCommands
     {
         private IAsyncResult _executeCommandResult;
 
-        public BaseCommand(string projectLocation)
-        {
-            ProjectLocation = projectLocation;
-        }
-
-        public BaseCommand()
-        {
-            
-        }
-
         public string ProjectLocation { get; set; }
 
         [Inject]

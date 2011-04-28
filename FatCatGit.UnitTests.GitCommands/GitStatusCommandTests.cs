@@ -23,8 +23,9 @@ namespace FatCatGit.UnitTests.GitCommands
 
             runner.Output = "# On branch ";
 
-            var status = new Status(GitTestProjectLocation)
+            var status = new Status()
                              {
+                                 ProjectLocation = GitTestProjectLocation,
                                  CommandArguments = command,
                                  Runner = runner
                              };

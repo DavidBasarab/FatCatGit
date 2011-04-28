@@ -3,7 +3,7 @@ using FatCatGit.Gui.Forms.SubForms;
 
 namespace FatCatGit.Gui
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -30,6 +30,7 @@ namespace FatCatGit.Gui
         private void FormLoaded(object sender, RoutedEventArgs e)
         {
             Global.LoadModules();
+            Global.LoadConfiguration();
         }
     }
 }

@@ -2,8 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using FatCatGit.Common.Interfaces;
 using FatCatGit.Gui.Presenter.Presenters;
 using FatCatGit.Gui.Presenter.Views;
+using Ninject;
+using Ninject.Parameters;
 
 namespace FatCatGit.Gui.Forms.SubForms
 {
@@ -13,7 +16,12 @@ namespace FatCatGit.Gui.Forms.SubForms
         {
             InitializeComponent();
 
-            Presenter = new ClonePresenter(this);
+            CreatePresenter();
+        }
+
+        private void CreatePresenter()
+        {
+            Presenter = Global.GitCommandModule.Get<ClonePresenter>(new ConstructorArgument("view", this));
         }
 
         private ClonePresenter Presenter { get; set; }
@@ -115,6 +123,24 @@ namespace FatCatGit.Gui.Forms.SubForms
         private void DestinationTextChanged(object sender, TextChangedEventArgs e)
         {
             Presenter.DestionFolderTextChanged();
+        }
+
+        private void CloneClick(object sender, RoutedEventArgs e)
+        {
+            Presenter.PerformClone();
+
+            Action<Output> cloneCompleteProcess = o =>
+                                                      {
+                                                          Action displayBoxes = () =>
+                                                                                    {
+                                                                                        MessageBox.Show(string.Format("Output: {0}", o.Output));
+                                                                                        MessageBox.Show(string.Format("Error: {0}", o.ErrorOutput));
+                                                                                    };
+
+                                                          Dispatcher.Invoke(displayBoxes);
+                                                      };
+
+            Presenter.CloneComplete += cloneCompleteProcess;
         }
     }
 }

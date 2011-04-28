@@ -106,6 +106,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FatCatGit.Common\FatCatGit.Common.csproj">
+      <Project>{77D65ED5-1414-4BF0-9B7C-FA87484C162B}</Project>
+      <Name>FatCatGit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.Configuration\FatCatGit.Configuration.csproj">
+      <Project>{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}</Project>
+      <Name>FatCatGit.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FatCatGit.Gui.Presenter\FatCatGit.Gui.Presenter.csproj">
       <Project>{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}</Project>
       <Name>FatCatGit.Gui.Presenter</Name>
