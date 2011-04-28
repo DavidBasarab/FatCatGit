@@ -62,6 +62,10 @@
       <Project>{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}</Project>
       <Name>FatCatGit.CommandLineRunner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.Common\FatCatGit.Common.csproj">
+      <Project>{77D65ED5-1414-4BF0-9B7C-FA87484C162B}</Project>
+      <Name>FatCatGit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FatCatGit.Configuration\FatCatGit.Configuration.csproj">
       <Project>{855BB2C8-BAB5-4143-9B6E-FB3BA95E0F02}</Project>
       <Name>FatCatGit.Configuration</Name>

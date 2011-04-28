@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using FatCatGit.CommandLineRunner;
+using FatCatGit.Common.Interfaces;
 
 namespace FatCatGit.UnitTests.Gui.Presenter
 {

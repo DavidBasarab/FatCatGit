@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Modules", "FatCat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoMocksExtensions", "RhinoMocksExtensions\RhinoMocksExtensions.csproj", "{E686EEB1-3B5C-43DA-A38B-2B9AC270830D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FatCatGit.Common", "FatCatGit.Common\FatCatGit.Common.csproj", "{77D65ED5-1414-4BF0-9B7C-FA87484C162B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,16 @@ Global
 		{E686EEB1-3B5C-43DA-A38B-2B9AC270830D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E686EEB1-3B5C-43DA-A38B-2B9AC270830D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E686EEB1-3B5C-43DA-A38B-2B9AC270830D}.Release|x86.ActiveCfg = Release|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{77D65ED5-1414-4BF0-9B7C-FA87484C162B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

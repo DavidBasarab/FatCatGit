@@ -47,11 +47,16 @@
     <Compile Include="ConsoleCommand.cs" />
     <Compile Include="CommandAsyncResult.cs" />
     <Compile Include="CommandOutput.cs" />
-    <Compile Include="Output.cs" />
     <Compile Include="OutputReceivedArgs.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConsoleRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FatCatGit.Common\FatCatGit.Common.csproj">
+      <Project>{77D65ED5-1414-4BF0-9B7C-FA87484C162B}</Project>
+      <Name>FatCatGit.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

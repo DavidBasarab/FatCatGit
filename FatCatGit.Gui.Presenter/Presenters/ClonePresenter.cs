@@ -1,6 +1,7 @@
 ﻿using System;
-using FatCatGit.CommandLineRunner;
+using FatCatGit.Common.Interfaces;
 using FatCatGit.GitCommands.Interfaces;
+using FatCatGit.Gui.Presenter.Exceptions;
 using FatCatGit.Gui.Presenter.Views;
 using Ninject;
 
@@ -27,10 +28,10 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public bool IsCloneButtonShown { get; set; }
 
-        public event Action<string> CloneComplete;
-
         [Inject]
         public Clone Clone { get; set; }
+
+        public event Action<Output> CloneComplete;
 
         public void SetDestinationFolder(string destinationFolderLocation)
         {
@@ -147,24 +148,56 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public void PerformClone()
         {
+            VerifyCloneCanBePerformed();
+
+            SetUpClone();
+
+            IAsyncResult result = Clone.Run();
+
+            MonitorCloneProcess(result);
+        }
+
+        private void VerifyCloneCanBePerformed()
+        {
+            if (string.IsNullOrEmpty(View.RepositoryToClone))
+            {
+                throw new CannotCloneException("RepositoryToClone is required.");
+            }
+
+            if (string.IsNullOrEmpty(View.DestinationFolder))
+            {
+                throw new CannotCloneException("DestinationFolder is required.");
+            }
+        }
+
+        private void MonitorCloneProcess(IAsyncResult result)
+        {
+            Action<IAsyncResult> completeProcess = WaitForCloneProcessToComplete;
+
+            completeProcess.BeginInvoke(result, null, null);
+        }
+
+        private void WaitForCloneProcessToComplete(IAsyncResult result)
+        {
+            result.AsyncWaitHandle.WaitOne();
+
+            var output = (Output) result.AsyncState;
+
+            FireCloneCompleteEvent(output);
+        }
+
+        private void FireCloneCompleteEvent(Output output)
+        {
+            if (CloneComplete != null)
+            {
+                CloneComplete(output);
+            }
+        }
+
+        private void SetUpClone()
+        {
             Clone.Destination = View.DestinationFolder;
             Clone.RepositoryToClone = View.RepositoryToClone;
-
-            var result = Clone.Run();
-
-            Action completeProcess = () =>
-                                         {
-                                             result.AsyncWaitHandle.WaitOne();
-
-                                             if (CloneComplete != null)
-                                             {
-                                                 var output = (Output) result.AsyncState;
-
-                                                 CloneComplete(output == null ? string.Empty : output.Output);
-                                             }
-                                         };
-
-            completeProcess.BeginInvoke(null, null);
         }
     }
 }

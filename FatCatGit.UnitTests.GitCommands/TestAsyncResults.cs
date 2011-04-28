@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using FatCatGit.CommandLineRunner;
+using FatCatGit.Common.Interfaces;
 
 namespace FatCatGit.UnitTests.GitCommands
 {
     internal class TestAsyncResults : IAsyncResult
     {
-        public ManualResetEvent StopEvent { get; set; }
-
         public TestAsyncResults()
         {
             StopEvent = new ManualResetEvent(true);
         }
+
+        public ManualResetEvent StopEvent { get; set; }
 
         public bool IsCompleted { get; set; }
 

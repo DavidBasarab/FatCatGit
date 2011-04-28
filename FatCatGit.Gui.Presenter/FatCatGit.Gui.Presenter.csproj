@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\CannotCloneException.cs" />
     <Compile Include="Exceptions\InvalidDirectory.cs" />
     <Compile Include="GitDirectory.cs" />
     <Compile Include="GitProject.cs" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\FatCatGit.CommandLineRunner\FatCatGit.CommandLineRunner.csproj">
       <Project>{6D6AC88B-AA42-4DC1-8F29-76A9970E0D70}</Project>
       <Name>FatCatGit.CommandLineRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FatCatGit.Common\FatCatGit.Common.csproj">
+      <Project>{77D65ED5-1414-4BF0-9B7C-FA87484C162B}</Project>
+      <Name>FatCatGit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FatCatGit.GitCommands\FatCatGit.GitCommands.csproj">
       <Project>{1B61554E-A406-41EC-9084-A0918F4EBEFB}</Project>
