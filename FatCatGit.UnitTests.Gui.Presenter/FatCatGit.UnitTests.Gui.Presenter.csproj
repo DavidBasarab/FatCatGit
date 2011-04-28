@@ -42,7 +42,6 @@
       <HintPath>..\ThirdParty\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,7 +52,6 @@
   <ItemGroup>
     <Compile Include="BasePresenterTests.cs" />
     <Compile Include="ClonePresenterTests.cs" />
-    <Compile Include="HookUpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,11 +59,6 @@
       <Project>{4540EC7A-0D7F-4EF6-8962-F6B9EBEF22EC}</Project>
       <Name>FatCatGit.Gui.Presenter</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

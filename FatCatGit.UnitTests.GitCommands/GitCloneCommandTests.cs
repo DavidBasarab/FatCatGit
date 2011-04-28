@@ -46,7 +46,7 @@ namespace FatCatGit.UnitTests.GitCommands
             Assert.That(clone.Output.Contains(string.Format("Cloning into {0}...", RepositoryDestination)));
             Assert.That(runner.Command, Is.EqualTo(command));
             Assert.That(command.CommandFullLocation, Is.EqualTo(GitInstallLocation));
-            Assert.That(command.Arguments, Is.EqualTo("clone -v --verbose --progress \"C:\\Test\\EmptyRepo1\" \"C:\\SomeFakeUnitTestDirectory\\MoreUnitTestFakey\""));
+            Assert.That(command.Arguments, Is.EqualTo("clone -v --verbose --progress \"C:\\Empty\\GitProject\" \"C:\\SomeFakeUnitTestDirectory\\MoreUnitTestFakey\""));
             Assert.That(command.WorkingDirectory, Is.EqualTo(GitEmptyTestProjectLocation));
         }
 

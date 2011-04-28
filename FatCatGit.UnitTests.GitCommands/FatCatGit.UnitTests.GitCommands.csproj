@@ -43,7 +43,6 @@
       <HintPath>..\ThirdParty\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,7 +55,6 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="GitCloneCommandTests.cs" />
     <Compile Include="GitStatusCommandTests.cs" />
-    <Compile Include="HookUpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAsyncResults.cs" />
   </ItemGroup>
@@ -77,9 +75,6 @@
       <Project>{8ABBC059-9113-4A82-AB17-06E82EFC1B37}</Project>
       <Name>FatCatGit.Modules</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

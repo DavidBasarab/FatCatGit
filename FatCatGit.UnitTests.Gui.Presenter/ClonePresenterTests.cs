@@ -12,7 +12,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
     {
         private static string DestinationLocation
         {
-            get { return ConfigurationManager.AppSettings["DestinationLocation"]; }
+            get { return @"C:\DestinationLocation\Fake"; }
         }
 
         private const string TestRepository = @"C:\SomeTestRepository";
