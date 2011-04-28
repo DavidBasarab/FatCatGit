@@ -89,17 +89,32 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NBehave.MSBuild">
+      <HintPath>..\v4.0\NBehave.MSBuild.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.NAnt">
+      <HintPath>..\v4.0\NBehave.NAnt.dll</HintPath>
+    </Reference>
     <Reference Include="NBehave.Narrator.Framework">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\NBehave.Narrator.Framework.dll</HintPath>
+      <HintPath>..\v4.0\NBehave.Narrator.Framework.dll</HintPath>
     </Reference>
     <Reference Include="NBehave.Spec.Framework">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\NBehave.Spec.Framework.dll</HintPath>
+      <HintPath>..\v4.0\NBehave.Spec.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.MbUnit">
+      <HintPath>..\v4.0\NBehave.Spec.MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.MSTest10">
+      <HintPath>..\v4.0\NBehave.Spec.MSTest10.dll</HintPath>
     </Reference>
     <Reference Include="NBehave.Spec.NUnit">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\NBehave.Spec.NUnit.dll</HintPath>
+      <HintPath>..\v4.0\NBehave.Spec.NUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.Xunit">
+      <HintPath>..\v4.0\NBehave.Spec.Xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.TestDriven.Plugin">
+      <HintPath>..\v4.0\NBehave.TestDriven.Plugin.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
@@ -127,10 +142,6 @@
     <Compile Include="Tables\Table.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\NBehave.Framework\languages.yml">
-      <Link>languages.yml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Bowling Game\BowlingGame.msbuild">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -161,6 +172,7 @@
     <None Include="Bowling Game\features\Bowling score calculation\Gutter game.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="languages.yml" />
     <None Include="Tables\Table.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
