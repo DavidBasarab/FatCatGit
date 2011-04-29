@@ -127,20 +127,20 @@ namespace FatCatGit.Gui.Forms.SubForms
 
         private void CloneClick(object sender, RoutedEventArgs e)
         {
-            Presenter.PerformClone();
-
             Action<Output> cloneCompleteProcess = o =>
-                                                      {
-                                                          Action displayBoxes = () =>
-                                                                                    {
-                                                                                        MessageBox.Show(string.Format("Output: {0}", o.Output));
-                                                                                        MessageBox.Show(string.Format("Error: {0}", o.ErrorOutput));
-                                                                                    };
+            {
+                Action displayBoxes = () =>
+                {
+                    MessageBox.Show(string.Format("Output: {0}", o.Output));
+                    MessageBox.Show(string.Format("Error: {0}", o.ErrorOutput));
+                };
 
-                                                          Dispatcher.Invoke(displayBoxes);
-                                                      };
+                Dispatcher.Invoke(displayBoxes);
+            };
 
             Presenter.CloneComplete += cloneCompleteProcess;
+
+            Presenter.PerformClone();
         }
     }
 }

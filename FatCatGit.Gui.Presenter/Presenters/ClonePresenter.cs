@@ -20,7 +20,12 @@ namespace FatCatGit.Gui.Presenter.Presenters
 
         public GitProject GitProject
         {
-            get { return _gitProject ?? (_gitProject = new GitProject(View.RepositoryToClone)); }
+            get
+            {
+                
+
+                return _gitProject ?? (_gitProject = new GitProject(View.RepositoryToClone));
+            }
             set { _gitProject = value; }
         }
 
@@ -84,7 +89,7 @@ namespace FatCatGit.Gui.Presenter.Presenters
         {
             var gitDirectory = new GitDirectory(destinationFolderLocation);
 
-            if (DoesSelectedFolderHaveSameNameAsRepo(destinationFolderLocation))
+            if (GitProject.IsFolderLocation || DoesSelectedFolderHaveSameNameAsRepo(destinationFolderLocation))
             {
                 View.DestinationFolder = destinationFolderLocation;
             }
@@ -198,7 +203,8 @@ namespace FatCatGit.Gui.Presenter.Presenters
         {
             Clone.Destination = View.DestinationFolder;
             Clone.RepositoryToClone = View.RepositoryToClone;
-            Clone.ProjectLocation = View.RepositoryToClone;
+
+            Clone.Progress += (o, e) => Console.WriteLine(e.Message);
         }
     }
 }

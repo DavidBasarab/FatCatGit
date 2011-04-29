@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -37,6 +38,11 @@ namespace FatCatGit.Gui.Presenter
 
                 return DetermineUriRepositoryName();
             }
+        }
+
+        public bool IsFolderLocation
+        {
+            get { return ProjectType == GitProjectType.FolderLocation; }
         }
 
         private void DetermineGitProjectType()

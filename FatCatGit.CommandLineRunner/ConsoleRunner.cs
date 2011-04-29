@@ -57,13 +57,25 @@ namespace FatCatGit.CommandLineRunner
 
         private void FindCommandOutput()
         {
-            CreateProcess();
+            try
+            {
+                CreateProcess();
 
-            RegisterForOutputEvents();
+                RegisterForOutputEvents();
 
-            StartProcess();
+                Console.WriteLine("Starting process");
 
-            Process.WaitForExit();
+                StartProcess();
+
+                Process.WaitForExit();
+
+                Console.WriteLine("Process complete");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error:      {0}", ex.Message);
+                Console.WriteLine("Stacktrace: {0}", ex.StackTrace);
+            }
         }
 
         private void StartProcess()

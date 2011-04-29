@@ -177,7 +177,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
             Assert.That(clone.Destination, Is.EqualTo(destinationFolder));
             Assert.That(eventTriggered);
             Assert.That(output, Is.EqualTo("Clone completed successfully"));
-            Assert.That(clone.ProjectLocation, Is.EqualTo(repoToClone));
+            Assert.That(clone.ProjectLocation, Is.Null);
         }
 
         [Test]
@@ -246,9 +246,9 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         [Test]
         public void DestinationFolderWillNotAddExtraSlashAtEndOfTheFolder()
         {
-            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+            var expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
 
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
+            var cloneView = SetUpClonePresenterTestWithRepositry(@"git@github.com:DavidBasarab/SubFolderTest.git", expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
@@ -358,7 +358,7 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         {
             string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SomeTestRepository");
 
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, expectedDestinationFolder);
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(@"git@github.com:DavidBasarab/SomeTestRepository.git", expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
@@ -368,11 +368,24 @@ namespace FatCatGit.UnitTests.Gui.Presenter
         }
 
         [Test]
+        public void WhenRepositoryIsLocalNameIsNotAutomaticlyPutInDestinationFolder()
+        {
+            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepository, DestinationLocation);
+
+            var presenter = new ClonePresenter(cloneView);
+
+            presenter.SetDestinationFolder(DestinationLocation);
+
+            Assert.That(cloneView.DestinationFolder, Is.EqualTo(DestinationLocation));
+        }
+
+        [Test]
         public void SpecificyDestionationFolderWillUseRepositoryNameAsSubFolderWhenRepoUnderParentFolder()
         {
-            string expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
+            var expectedDestinationFolder = string.Format("{0}\\{1}", DestinationLocation, "SubFolderTest");
 
-            CloneView cloneView = SetUpClonePresenterTestWithRepositry(TestRepositoryWithSubFolder, expectedDestinationFolder);
+            var cloneView = SetUpClonePresenterTestWithRepositry(@"git@github.com:DavidBasarab/SubFolderTest.git", 
+                expectedDestinationFolder);
 
             var presenter = new ClonePresenter(cloneView);
 
