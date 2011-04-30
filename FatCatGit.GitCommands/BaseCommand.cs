@@ -18,6 +18,9 @@ namespace FatCatGit.GitCommands
         [Inject]
         public Command CommandArguments { get; set; }
 
+        [Inject]
+        public EnvironmentVariable EnvironmentVariable { get; set; }
+
         protected virtual string GitCommandString
         {
             get { return string.Empty; }
@@ -35,6 +38,18 @@ namespace FatCatGit.GitCommands
 
         public IAsyncResult Run()
         {
+            if (string.IsNullOrEmpty(EnvironmentVariable.Home))
+            {
+                if (!string.IsNullOrEmpty(EnvironmentVariable.HomeDrive))
+                {
+                    EnvironmentVariable.Home = string.Format("{0}{1}", EnvironmentVariable.HomeDrive, EnvironmentVariable.HomePath); 
+                }
+                else
+                {
+                    EnvironmentVariable.Home = EnvironmentVariable.UserProfile;
+                }
+            }
+
             ExecuteCommand();
 
             return _executeCommandResult;

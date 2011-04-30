@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using FatCatGit.CommandLineRunner;
 using FatCatGit.Configuration;
+using FatCatGit.GitCommands;
 using NUnit.Framework;
 using Rhino.Mocks;
 using RhinoMocksExtensions;
@@ -82,6 +83,15 @@ namespace FatCatGit.UnitTests.GitCommands
             command.SetPropertyAsBehavior(v => v.WorkingDirectory);
 
             return command;
+        }
+
+        protected EnvironmentVariable StubEnvironmentVariable()
+        {
+            var ev = Mocks.Stub<EnvironmentVariable>();
+
+            Mocks.ReplayAll();
+
+            return ev;
         }
     }
 }

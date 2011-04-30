@@ -203,8 +203,6 @@ namespace FatCatGit.Gui.Presenter.Presenters
         {
             Clone.Destination = View.DestinationFolder;
             Clone.RepositoryToClone = View.RepositoryToClone;
-
-            Clone.Progress += (o, e) => Console.WriteLine(e.Message);
         }
     }
 }

@@ -37,7 +37,8 @@ namespace FatCatGit.UnitTests.GitCommands
                                 RepositoryToClone = GitEmptyTestProjectLocation,
                                 Destination = RepositoryDestination,
                                 Runner = runner,
-                                CommandArguments = command
+                                CommandArguments = command,
+                                EnvironmentVariable = StubEnvironmentVariable()
                             };
 
             IAsyncResult result = clone.Run();
@@ -68,7 +69,8 @@ namespace FatCatGit.UnitTests.GitCommands
                                 RepositoryToClone = GitTestProjectLocation,
                                 Destination = RepositoryDestination,
                                 Runner = runner,
-                                CommandArguments = command
+                                CommandArguments = command,
+                                EnvironmentVariable = StubEnvironmentVariable()
                             };
 
             string progressMessage = string.Empty;
