@@ -46,6 +46,7 @@
     <Compile Include="Args\GitCommandProgressEventArgs.cs" />
     <Compile Include="CloneCommand.cs" />
     <Compile Include="BaseCommand.cs" />
+    <Compile Include="GitEnvironmentVariable.cs" />
     <Compile Include="WindowsEnvironmentVariable.cs" />
     <Compile Include="EnvironmentVariable.cs" />
     <Compile Include="Interfaces\Clone.cs" />

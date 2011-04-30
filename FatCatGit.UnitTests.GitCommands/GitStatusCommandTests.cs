@@ -1,8 +1,6 @@
-﻿using System;
-using FatCatGit.CommandLineRunner;
+﻿using FatCatGit.CommandLineRunner;
 using FatCatGit.GitCommands;
 using NUnit.Framework;
-using Rhino.Mocks;
 using RhinoMocksExtensions;
 
 namespace FatCatGit.UnitTests.GitCommands
@@ -11,59 +9,13 @@ namespace FatCatGit.UnitTests.GitCommands
     [Category("Git Commands")]
     public class GitStatusCommandTests : BaseCommandTests
     {
-        [Test]
-        public void EnvironmentVariableHomeWillBeSetToUserHomeDriveAndPathIfNotFound()
-        {
-            Status status;
-            var environmentVariable = SetUpForEnvironmentTests(out status);
-
-            environmentVariable.HomeDrive = "E:";
-            environmentVariable.HomePath = @"\users\FatCat\Faker";
-
-            status.Run();
-
-            Assert.That(environmentVariable.Home, Is.EqualTo(@"E:\users\FatCat\Faker"));
-        }
-
-        [Test]
-        public void EnvironmentVariableHomeWillNotBeChangedIfPreviouslySet()
-        {
-            Status status;
-            var environmentVariable = SetUpForEnvironmentTests(out status);
-
-            const string customHomeValue = "I_Set_This_To_Custom_Value";
-
-            environmentVariable.Home = customHomeValue;
-            environmentVariable.HomeDrive = "E:";
-            environmentVariable.HomePath = @"\users\FatCat\Faker";
-
-            status.Run();
-
-            Assert.That(environmentVariable.Home, Is.EqualTo(customHomeValue));
-        }
-
-        [Test]
-        public void IfEnvironmentHomeDriveIsNullUseUserProfileForHomeValue()
-        {
-            Status status;
-            var environmentVariable = SetUpForEnvironmentTests(out status);
-
-            environmentVariable.HomeDrive = null;
-            environmentVariable.HomePath = @"\users\FatCat\Faker";
-            environmentVariable.UserProfile = @"E:\FatCatProfile";
-
-            status.Run();
-
-            Assert.That(environmentVariable.Home, Is.EqualTo(@"E:\FatCatProfile"));
-        }
-
         private EnvironmentVariable SetUpForEnvironmentTests(out Status status)
         {
             MockGitLocationForConfiguration();
 
-            var command = MockCommandProperties();
+            Command command = MockCommandProperties();
 
-            var runner = MockRunner();
+            Runner runner = MockRunner();
 
             var environmentVariable = Mocks.StrictMock<EnvironmentVariable>();
 
@@ -86,10 +38,34 @@ namespace FatCatGit.UnitTests.GitCommands
         }
 
         [Test]
-        [Ignore("Waiting on refactoring")]
-        public void HomeEnvironmentVariableWillNotBeChangedIfPreviouslySet()
+        public void EnvironmentVariableHomeWillBeSetToUserHomeDriveAndPathIfNotFound()
         {
-            Assert.Fail();
+            Status status;
+            EnvironmentVariable environmentVariable = SetUpForEnvironmentTests(out status);
+
+            environmentVariable.HomeDrive = "E:";
+            environmentVariable.HomePath = @"\users\FatCat\Faker";
+
+            status.Run();
+
+            Assert.That(environmentVariable.Home, Is.EqualTo(@"E:\users\FatCat\Faker"));
+        }
+
+        [Test]
+        public void EnvironmentVariableHomeWillNotBeChangedIfPreviouslySet()
+        {
+            Status status;
+            EnvironmentVariable environmentVariable = SetUpForEnvironmentTests(out status);
+
+            const string customHomeValue = "I_Set_This_To_Custom_Value";
+
+            environmentVariable.Home = customHomeValue;
+            environmentVariable.HomeDrive = "E:";
+            environmentVariable.HomePath = @"\users\FatCat\Faker";
+
+            status.Run();
+
+            Assert.That(environmentVariable.Home, Is.EqualTo(customHomeValue));
         }
 
         [Test]
@@ -97,9 +73,9 @@ namespace FatCatGit.UnitTests.GitCommands
         {
             MockGitLocationForConfiguration();
 
-            var command = MockCommandProperties();
+            Command command = MockCommandProperties();
 
-            var runner = MockRunner();
+            Runner runner = MockRunner();
 
             Mocks.ReplayAll();
 
@@ -120,6 +96,38 @@ namespace FatCatGit.UnitTests.GitCommands
             Assert.That(command.CommandFullLocation, Is.EqualTo(GitInstallLocation));
             Assert.That(command.Arguments, Is.EqualTo("status"));
             Assert.That(command.WorkingDirectory, Is.EqualTo(GitTestProjectLocation));
+        }
+
+        [Test]
+        public void IfEnvironmentHomeDriveIsNullUseUserProfileForHomeValue()
+        {
+            Status status;
+            EnvironmentVariable environmentVariable = SetUpForEnvironmentTests(out status);
+
+            
+
+            environmentVariable.HomeDrive = null;
+            environmentVariable.HomePath = @"\users\FatCat\Faker";
+            environmentVariable.UserProfile = @"E:\FatCatProfile";
+
+            status.Run();
+
+            Assert.That(environmentVariable.Home, Is.EqualTo(@"E:\FatCatProfile"));
+        }
+
+        [Test]
+        public void IfEnvironmentHomePathIsNullUseUserProfileForHomeValue()
+        {
+            Status status;
+            EnvironmentVariable environmentVariable = SetUpForEnvironmentTests(out status);
+
+            environmentVariable.HomeDrive = "E:";
+            environmentVariable.HomePath = null;
+            environmentVariable.UserProfile = @"E:\FatCatProfile";
+
+            status.Run();
+
+            Assert.That(environmentVariable.Home, Is.EqualTo(@"E:\FatCatProfile"));
         }
     }
 }

@@ -38,21 +38,18 @@ namespace FatCatGit.GitCommands
 
         public IAsyncResult Run()
         {
-            if (string.IsNullOrEmpty(EnvironmentVariable.Home))
-            {
-                if (!string.IsNullOrEmpty(EnvironmentVariable.HomeDrive))
-                {
-                    EnvironmentVariable.Home = string.Format("{0}{1}", EnvironmentVariable.HomeDrive, EnvironmentVariable.HomePath); 
-                }
-                else
-                {
-                    EnvironmentVariable.Home = EnvironmentVariable.UserProfile;
-                }
-            }
+            SetUpHomeEnvironmentVariable();
 
             ExecuteCommand();
 
             return _executeCommandResult;
+        }
+
+        private void SetUpHomeEnvironmentVariable()
+        {
+            var gitEv = new GitEnvironmentVariable(EnvironmentVariable);
+
+            gitEv.DetermineHomeVariable();
         }
 
         private void ExecuteCommand()

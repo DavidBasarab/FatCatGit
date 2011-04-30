@@ -27,12 +27,5 @@ namespace FatCatGit.GitCommands
             get { return Environment.GetEnvironmentVariable("USERPROFILE"); }
             set { throw new InvalidOperationException("Cannot set the USERPROFILE Environment variable in windows."); }
         }
-
-        public void DetermineHome()
-        {
-            string homeValue = string.Format("{0}{1}", HomeDrive, HomePath);
-
-            Home = homeValue;
-        }
     }
 }
