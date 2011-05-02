@@ -74,6 +74,15 @@ namespace FatCatGit.UnitTests.GitCommands
             return runner;
         }
 
+        protected Runner StubRunner()
+        {
+            var runner = Mocks.Stub<Runner>();
+
+            Mocks.ReplayAll();
+
+            return runner;
+        }
+
         protected Command MockCommandProperties()
         {
             var command = Mocks.StrictMock<Command>();

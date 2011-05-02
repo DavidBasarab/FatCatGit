@@ -12,6 +12,7 @@ namespace FatCatGit.Modules
             Bind<Runner>().To<ConsoleRunner>();
             Bind<Command>().To<ConsoleCommand>();
             Bind<Clone>().To<CloneCommand>();
+            Bind<EnvironmentVariable>().To<WindowsEnvironmentVariable>();
         }
     }
 }

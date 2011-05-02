@@ -102,9 +102,7 @@ namespace FatCatGit.UnitTests.GitCommands
         public void IfEnvironmentHomeDriveIsNullUseUserProfileForHomeValue()
         {
             Status status;
-            EnvironmentVariable environmentVariable = SetUpForEnvironmentTests(out status);
-
-            
+            var environmentVariable = SetUpForEnvironmentTests(out status);
 
             environmentVariable.HomeDrive = null;
             environmentVariable.HomePath = @"\users\FatCat\Faker";
